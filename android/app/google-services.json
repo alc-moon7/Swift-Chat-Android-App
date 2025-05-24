@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "205981391089",
+    "project_id": "swift-400b0",
+    "storage_bucket": "swift-400b0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:205981391089:android:279a8b52dcf598871ab150",
+        "android_client_info": {
+          "package_name": "com.example.swift_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "205981391089-f1g93o8u83t0m2qvtcir7nsdmmua3o9p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.swift_chat",
+            "certificate_hash": "18113f3c8bb062ab6cdb45a89585e40387c5b620"
+          }
+        },
+        {
+          "client_id": "205981391089-1v9tq6c2rn8t3te7ndacuhb9or3eh5di.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlD6sRgN7ffRpPFadILsPI0RUiEn2oSFA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "205981391089-1v9tq6c2rn8t3te7ndacuhb9or3eh5di.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

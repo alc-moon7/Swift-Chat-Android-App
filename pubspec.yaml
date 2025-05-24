@@ -1,0 +1,71 @@
+name: swift_chat
+description: A new Flutter project.
+
+version: 2.0.0+1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"  # Ensure the Dart SDK is compatible with Flutter 3.7
+
+dependencies:
+  flutter:
+    sdk: flutter
+  firebase_core: ^3.13.0
+  firebase_auth: ^5.5.3
+  google_sign_in: ^6.1.6
+  provider: ^6.0.5
+  animated_text_kit: ^4.2.2
+  cupertino_icons: ^1.0.8
+  flutter_svg: ^2.0.7
+  connectivity_plus: ^4.0.2
+  animate_do: ^4.2.0
+  cached_network_image: ^3.4.1
+  cloud_firestore: ^5.6.7
+  firebase_messaging: ^15.2.5
+  app_settings: ^5.1.1
+  flutter_local_notifications: ^19.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  flutterfire_cli: ^1.2.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets\images\default_avatar.png
+    
+  # Uncomment and add your fonts here if needed
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+
+# flutter_launcher_icons:
+#   android: true
+#   ios: true
+#   image_path: "assets/images/icon.png"
+#   min_sdk_android: 21  # Minimum Android SDK version
+
+#   web:
+#     generate: true
+#     image_path: "assets/images/icon.png"
+#     background_color: "#hexcode"
+#     theme_color: "#hexcode"
+
+#   windows:
+#     generate: true
+#     image_path: "assets/images/icon.png"
+#     icon_size: 48  # Icon size for Windows
+
+#   macos:
+#     generate: true
+#     image_path: "assets/images/icon.png"
