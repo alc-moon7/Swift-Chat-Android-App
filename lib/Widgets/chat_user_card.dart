@@ -1,5 +1,3 @@
-// chat_user_card.dart
-
 import 'package:flutter/material.dart';
 
 class ChatUserCard extends StatelessWidget {
@@ -30,6 +28,11 @@ class ChatUserCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        margin: const EdgeInsets.only(bottom: 8),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(12),
+        ),
         child: Row(
           children: [
             _buildAvatar(),
@@ -43,17 +46,19 @@ class ChatUserCard extends StatelessWidget {
                     children: [
                       Text(
                         name,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
+                          fontWeight: hasUnreadMessages
+                              ? FontWeight.bold
+                              : FontWeight.w500,
+                          color: Colors.white,
                         ),
                       ),
                       Text(
                         time,
                         style: TextStyle(
                           fontSize: 12,
-                          color: Colors.grey.shade600,
+                          color: Colors.grey.shade300,
                         ),
                       ),
                     ],
@@ -68,7 +73,12 @@ class ChatUserCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 14,
-                            color: Colors.grey.shade600,
+                            color: hasUnreadMessages
+                                ? Colors.white
+                                : Colors.grey.shade300,
+                            fontWeight: hasUnreadMessages
+                                ? FontWeight.bold
+                                : FontWeight.normal,
                           ),
                         ),
                       ),
@@ -76,16 +86,17 @@ class ChatUserCard extends StatelessWidget {
                         Container(
                           margin: const EdgeInsets.only(left: 4),
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 2),
+                              horizontal: 6, vertical: 2),
                           decoration: BoxDecoration(
-                            color: Colors.blue,
+                            color: Colors.blueAccent,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
-                            unreadCount.toString(),
+                            unreadCount > 0 ? unreadCount.toString() : 'New',
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 12,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),

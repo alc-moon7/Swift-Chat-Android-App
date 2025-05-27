@@ -1,5 +1,7 @@
-import 'dart:async';
+// ignore_for_file: deprecated_member_use
 
+import 'dart:async';
+import 'package:intl/intl.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,21 +15,21 @@ class ChatUser {
   final String id;
   final String name;
   final String email;
-  final String? photo;
+  final String? photoUrl;
 
   ChatUser({
     required this.id,
     required this.name,
     required this.email,
-    this.photo,
+    this.photoUrl,
   });
 
   factory ChatUser.fromMap(Map<String, dynamic> data) {
     return ChatUser(
-      id: data['uid'] ?? '',
+      id: data['uid'] ?? data['id'] ?? '',
       name: data['name'] ?? '',
       email: data['email'] ?? '',
-      photo: data['photoUrl'] ?? '',
+      photoUrl: data['photoUrl'] ?? data['photo'] ?? '',
     );
   }
 }
@@ -79,11 +81,14 @@ class _HomeScreenState extends State<HomeScreen> {
   void _setupNotifications() {
     _notificationSubscription =
         NotificationService.messageStream.listen((message) {
-      _showInAppNotification(message);
+      if (mounted) {
+        _showInAppNotification(message);
+      }
     });
   }
 
   void _showInAppNotification(RemoteMessage message) {
+    if (!mounted) return;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -91,16 +96,16 @@ class _HomeScreenState extends State<HomeScreen> {
         content: Text(message.notification?.body ?? ''),
         actions: [
           TextButton(
-            child: const Text('Close'),
             onPressed: () => Navigator.pop(context),
+            child: const Text('Close'),
           ),
           if (message.data['chatId'] != null)
             TextButton(
-              child: const Text('View'),
               onPressed: () {
                 Navigator.pop(context);
                 _navigateToChat(message.data['chatId']);
               },
+              child: const Text('View'),
             ),
         ],
       ),
@@ -108,10 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _navigateToChat(String? chatId) {
-    if (chatId == null) return;
-
-    // Implement your chat navigation logic here
-    // Example:
+    if (chatId == null || !mounted) return;
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -124,15 +126,15 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  String _getChatId(String uid1, String uid2) {
+    return uid1.compareTo(uid2) < 0 ? '$uid1-$uid2' : '$uid2-$uid1';
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_user == null) {
       return const Center(child: Text('User not logged in'));
     }
-
-    final name = _user!.displayName ?? 'User';
-    final email = _user!.email ?? 'No email available';
-    final photoUrl = _user!.photoURL;
 
     return Scaffold(
       appBar: AppBar(
@@ -187,19 +189,16 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddUserDialog,
         backgroundColor: const Color(0xFF00BCD4),
-        foregroundColor: Colors.white,
         child: const Icon(Icons.person_add),
       ),
       body: Stack(
         children: [
-          Positioned.fill(
-            child: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Color(0xFF1A237E), Color(0xFF0D47A1)],
-                ),
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Color(0xFF1A237E), Color(0xFF0D47A1)],
               ),
             ),
           ),
@@ -208,40 +207,9 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 100,
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 30,
-                          backgroundImage: photoUrl != null
-                              ? NetworkImage(photoUrl)
-                              : const AssetImage(
-                                      'assets/images/default_avatar.png')
-                                  as ImageProvider,
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(name,
-                                  style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white)),
-                              Text(email,
-                                  style: const TextStyle(
-                                      fontSize: 14, color: Colors.white70)),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  _buildUserHeader(),
                   const SizedBox(height: 16),
-                  Expanded(child: _buildAllUsers()),
+                  Expanded(child: _buildUserList()),
                 ],
               ),
             ),
@@ -251,13 +219,54 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () => setState(() => _isMenuOpen = false),
               child: Container(color: Colors.black.withOpacity(0.3)),
             ),
-          _buildSideMenu(name, email, photoUrl),
+          _buildSideMenu(),
         ],
       ),
     );
   }
 
-  Widget _buildAllUsers() {
+  Widget _buildUserHeader() {
+    return SizedBox(
+      height: 100,
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 30,
+            backgroundImage: _user!.photoURL != null
+                ? NetworkImage(_user!.photoURL!)
+                : const AssetImage('assets/images/default_avatar.png')
+                    as ImageProvider,
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  _user!.displayName ?? 'User',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                Text(
+                  _user!.email ?? 'No email',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.white70,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildUserList() {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance.collection('users').snapshots(),
       builder: (context, snapshot) {
@@ -277,102 +286,156 @@ class _HomeScreenState extends State<HomeScreen> {
         return ListView.builder(
           itemCount: users.length,
           itemBuilder: (context, index) {
-            final user = users[index];
-            return Container(
-              margin: const EdgeInsets.symmetric(vertical: 4),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: Colors.white24,
-                  backgroundImage: user.photo != null
-                      ? NetworkImage(user.photo!)
-                      : const AssetImage('assets/images/default_avatar.png')
-                          as ImageProvider,
-                ),
-                title: Text(user.name,
-                    style: const TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w500)),
-                subtitle: Text(user.email,
-                    style: const TextStyle(color: Colors.white70)),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => ChatScreen(
-                        peerId: user.id,
-                        peerName: user.name,
-                        peerPhoto: user.photo,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            );
+            return _buildUserListItem(users[index]);
           },
         );
       },
     );
   }
 
-  Widget _buildSideMenu(String name, String email, String? photoUrl) {
+  Widget _buildUserListItem(ChatUser user) {
+    final chatId = _getChatId(_user!.uid, user.id);
+
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('messages')
+          .where('chatId', isEqualTo: chatId)
+          .orderBy('timestamp', descending: true)
+          .limit(1)
+          .snapshots(),
+      builder: (context, snapshot) {
+        String lastMessage = 'No messages yet';
+        String timeString = '';
+        bool isMe = false;
+
+        if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
+          final message = snapshot.data!.docs.first;
+          lastMessage = message['content'] ?? '';
+          final timestamp = message['timestamp'] as Timestamp?;
+          isMe = message['senderId'] == _user!.uid;
+
+          if (timestamp != null) {
+            timeString = DateFormat('h:mm a')
+                .format(timestamp.toDate())
+                .replaceAll(':', '.')
+                .toLowerCase();
+          }
+        }
+
+        return Container(
+          margin: const EdgeInsets.symmetric(vertical: 4),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: ListTile(
+            leading: CircleAvatar(
+              backgroundImage: user.photoUrl != null
+                  ? NetworkImage(user.photoUrl!)
+                  : const AssetImage('assets/images/default_avatar.png')
+                      as ImageProvider,
+            ),
+            title: Text(
+              user.name,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            subtitle: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    isMe ? 'You: $lastMessage' : lastMessage,
+                    style: const TextStyle(color: Colors.white70),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Text(
+                  timeString,
+                  style: const TextStyle(
+                    color: Colors.white70,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => ChatScreen(
+                    peerId: user.id,
+                    peerName: user.name,
+                    peerPhoto: user.photoUrl,
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildSideMenu() {
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
       left: _isMenuOpen ? 0 : -MediaQuery.of(context).size.width * 0.7,
       top: 0,
       bottom: 0,
-      child: Container(
+      child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.7,
-        padding: const EdgeInsets.only(top: 40),
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Color(0xFF0D47A1), Color(0xFF1A237E)],
-          ),
-        ),
         child: Column(
           children: [
+            const SizedBox(height: 40),
             ListTile(
               leading: CircleAvatar(
                 radius: 25,
-                backgroundImage: photoUrl != null
-                    ? NetworkImage(photoUrl)
+                backgroundImage: _user!.photoURL != null
+                    ? NetworkImage(_user!.photoURL!)
                     : const AssetImage('assets/images/default_avatar.png')
                         as ImageProvider,
               ),
-              title: Text(name,
-                  style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white)),
-              subtitle: Text(email,
-                  style: const TextStyle(fontSize: 12, color: Colors.white70)),
+              title: Text(
+                _user!.displayName ?? 'User',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              subtitle: Text(
+                _user!.email ?? 'No email',
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: Colors.white70,
+                ),
+              ),
               trailing: IconButton(
                 icon: Icon(
                   widget.isDarkMode ? Icons.light_mode : Icons.dark_mode,
                   color: Colors.white70,
                 ),
-                onPressed: () {
-                  widget.onThemeChanged(!widget.isDarkMode);
-                },
+                onPressed: () => widget.onThemeChanged(!widget.isDarkMode),
               ),
             ),
             const Divider(color: Colors.tealAccent),
-            ..._menuItems.map((item) {
-              return ListTile(
-                leading: Icon(item['icon'], color: const Color(0xFF00BCD4)),
-                title: Text(
-                  item['title'],
-                  style: const TextStyle(
-                      color: Colors.white70, fontWeight: FontWeight.w500),
-                ),
-                onTap: () => setState(() => _isMenuOpen = false),
-              );
-            }).toList(),
+            ..._menuItems.map((item) => ListTile(
+                  leading: Icon(
+                    item['icon'],
+                    color: const Color(0xFF00BCD4),
+                  ),
+                  title: Text(
+                    item['title'],
+                    style: const TextStyle(
+                      color: Colors.white70,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  onTap: () => setState(() => _isMenuOpen = false),
+                )),
           ],
         ),
       ),
@@ -380,99 +443,111 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _showAddUserDialog() {
-    if (_isDialogOpen) return;
+    if (_isDialogOpen || !mounted) return;
     _isDialogOpen = true;
 
-    final TextEditingController _emailController = TextEditingController();
+    final emailController = TextEditingController();
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Add User by Email'),
-        content: TextField(
-          controller: _emailController,
-          keyboardType: TextInputType.emailAddress,
-          decoration: const InputDecoration(hintText: 'Enter user email'),
-        ),
-        actions: [
-          TextButton(
-            child: const Text('Cancel'),
-            onPressed: () {
-              _isDialogOpen = false;
-              Navigator.pop(context);
-            },
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Add User by Email'),
+          content: TextField(
+            controller: emailController,
+            decoration: const InputDecoration(hintText: 'Enter user email'),
+            keyboardType: TextInputType.emailAddress,
           ),
-          TextButton(
-            child: const Text('Connect'),
-            onPressed: () async {
-              final email = _emailController.text.trim();
-              Navigator.pop(context);
-              _isDialogOpen = false;
+          actions: [
+            TextButton(
+              onPressed: () {
+                _isDialogOpen = false;
+                Navigator.pop(context);
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                final email = emailController.text.trim();
+                if (!mounted) return;
+                Navigator.pop(context);
+                _isDialogOpen = false;
 
-              if (email.isNotEmpty) {
+                if (email.isEmpty) {
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Please enter email')),
+                    );
+                  }
+                  return;
+                }
+
                 showDialog(
                   context: context,
                   barrierDismissible: false,
                   builder: (_) =>
                       const Center(child: CircularProgressIndicator()),
                 );
-                await _connectWithUserByEmail(email);
-                Navigator.pop(context);
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Please enter a valid email.')),
-                );
-              }
-            },
-          ),
-        ],
-      ),
-    );
-  }
 
-  Future<void> _connectWithUserByEmail(String email) async {
-    try {
-      final firestore = FirebaseFirestore.instance;
-      final querySnapshot = await firestore
-          .collection('users')
-          .where('email', isEqualTo: email)
-          .limit(1)
-          .get();
+                try {
+                  final query = await FirebaseFirestore.instance
+                      .collection('users')
+                      .where('email', isEqualTo: email)
+                      .limit(1)
+                      .get();
 
-      if (querySnapshot.docs.isNotEmpty) {
-        final userData = querySnapshot.docs.first.data();
-        final peerId = querySnapshot.docs.first.id;
-        final peerName = userData['name'] ?? 'Unknown';
-        final peerEmail = userData['email'] ?? '';
-        final peerPhoto = userData['photo'] ?? '';
+                  if (!mounted) return;
+                  Navigator.pop(context); // Close loading
 
-        await addToChatUsers(
-          peerUserId: peerId,
-          peerName: peerName,
-          peerEmail: peerEmail,
-          peerPhotoUrl: peerPhoto,
-        );
+                  if (query.docs.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('User not found')),
+                    );
+                    return;
+                  }
 
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => ChatScreen(
-              peerId: peerId,
-              peerName: peerName,
-              peerPhoto: peerPhoto,
+                  final peerUser = ChatUser.fromMap(query.docs.first.data());
+
+                  // Add to contacts
+                  await FirebaseFirestore.instance
+                      .collection('chat_users')
+                      .doc(_user!.uid)
+                      .collection('contacts')
+                      .doc(peerUser.id)
+                      .set({
+                    'uid': peerUser.id,
+                    'name': peerUser.name,
+                    'email': peerUser.email,
+                    'photoUrl': peerUser.photoUrl,
+                    'lastMessageTime': FieldValue.serverTimestamp(),
+                  });
+
+                  if (mounted) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ChatScreen(
+                          peerId: peerUser.id,
+                          peerName: peerUser.name,
+                          peerPhoto: peerUser.photoUrl,
+                        ),
+                      ),
+                    );
+                  }
+                } catch (e) {
+                  if (mounted) {
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Error: ${e.toString()}')),
+                    );
+                  }
+                }
+              },
+              child: const Text('Connect'),
             ),
-          ),
+          ],
         );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('No user found with this email.')),
-        );
-      }
-    } catch (e) {
-      debugPrint('Error adding user by email: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Error adding user.')),
-      );
-    }
+      },
+    );
   }
 }
