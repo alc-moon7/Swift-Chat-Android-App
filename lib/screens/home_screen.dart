@@ -119,6 +119,11 @@ enum _HomeTab {
   profile,
 }
 
+enum _ProfileSaveState {
+  synced,
+  pending,
+}
+
 class HomeScreen extends StatefulWidget {
   final bool isDarkMode;
   final Function(bool) onThemeChanged;
@@ -229,8 +234,22 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     });
   }
 
-  Future<void> _saveProfileData(Map<String, dynamic> values) async {
-    await _currentUserDocRef.set(values, SetOptions(merge: true));
+  Future<_ProfileSaveState> _saveProfileData(Map<String, dynamic> values) async {
+    var wasConfirmedByServer = false;
+
+    await _currentUserDocRef
+        .set(values, SetOptions(merge: true))
+        .then((_) {
+          wasConfirmedByServer = true;
+        })
+        .timeout(
+          const Duration(seconds: 8),
+          onTimeout: () {},
+        );
+
+    return wasConfirmedByServer
+        ? _ProfileSaveState.synced
+        : _ProfileSaveState.pending;
   }
 
   Future<void> _pickAndSaveProfilePhoto(ImageSource source) async {
@@ -247,7 +266,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       }
 
       final bytes = await selectedImage.readAsBytes();
-      await _saveProfileData({
+      final saveState = await _saveProfileData({
         'photoBase64': bytes.isNotEmpty ? base64Encode(bytes) : '',
         'photoUrl': '',
         'photoUpdatedAt': FieldValue.serverTimestamp(),
@@ -257,7 +276,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         return;
       }
 
-      Dialogs.showSnackbar(context, 'Profile photo updated');
+      Dialogs.showSnackbar(
+        context,
+        saveState == _ProfileSaveState.synced
+            ? 'Profile photo updated'
+            : 'Profile photo saved locally. Syncing...',
+      );
     } on PlatformException catch (error) {
       if (!mounted) {
         return;
@@ -369,7 +393,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       }
     }
 
-    final didSave = await showModalBottomSheet<bool>(
+    final saveState = await showModalBottomSheet<_ProfileSaveState>(
       context: parentContext,
       useRootNavigator: true,
       isScrollControlled: true,
@@ -518,7 +542,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                   }
 
                                   try {
-                                    await _saveProfileData({
+                                    final result = await _saveProfileData({
                                       'name': normalizedDisplayName,
                                       'phone': normalizedPhone,
                                       'bio': normalizedBio,
@@ -534,15 +558,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                           FieldValue.serverTimestamp(),
                                     });
 
-                                    if (!sheetContext.mounted) {
+                                    if (!mounted || !sheetContext.mounted) {
                                       return;
                                     }
 
-                                    final sheetNavigator =
-                                        Navigator.of(sheetContext);
-                                    if (sheetNavigator.canPop()) {
-                                      sheetNavigator.pop(true);
-                                    }
+                                    Navigator.of(
+                                      parentContext,
+                                      rootNavigator: true,
+                                    ).pop(result);
                                   } catch (error) {
                                     if (!mounted) {
                                       return;
@@ -594,18 +617,29 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       },
     );
 
-    nameController.dispose();
-    phoneController.dispose();
-    bioController.dispose();
-    usernameController.dispose();
+    // The bottom sheet can still read these controllers during its close
+    // animation, so dispose them just after the route fully settles.
+    unawaited(
+      Future<void>.delayed(const Duration(milliseconds: 350), () {
+        nameController.dispose();
+        phoneController.dispose();
+        bioController.dispose();
+        usernameController.dispose();
+      }),
+    );
 
-    if (didSave == true && mounted) {
+    if (saveState != null && mounted) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) {
           return;
         }
 
-        Dialogs.showSnackbar(context, 'Profile updated successfully');
+        Dialogs.showSnackbar(
+          context,
+          saveState == _ProfileSaveState.synced
+              ? 'Profile updated successfully'
+              : 'Profile saved locally. Syncing...',
+        );
       });
     }
   }
