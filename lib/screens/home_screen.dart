@@ -809,6 +809,426 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     widget.onThemeChanged(value);
   }
 
+  bool _isChatArchived(Map<String, dynamic>? chatData) {
+    final archivedFor = List<String>.from(chatData?['archivedFor'] ?? const []);
+    return archivedFor.contains(_currentUser.uid);
+  }
+
+  Future<void> _setChatArchivedForPeer(ChatUser user, bool archived) async {
+    final chatRef = FirebaseFirestore.instance
+        .collection('chats')
+        .doc(_chatIdForPeer(user.id));
+
+    try {
+      await chatRef.set({
+        'members': [_currentUser.uid, user.id],
+      }, SetOptions(merge: true));
+
+      await chatRef.update({
+        'archivedFor': archived
+            ? FieldValue.arrayUnion([_currentUser.uid])
+            : FieldValue.arrayRemove([_currentUser.uid]),
+      });
+
+      if (!mounted) {
+        return;
+      }
+
+      Dialogs.showSnackbar(
+        context,
+        archived
+            ? '${user.name} moved to archived chats.'
+            : '${user.name} moved back to the main chats.',
+      );
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+
+      Dialogs.showSnackbar(
+        context,
+        archived
+            ? 'Could not archive this chat right now.'
+            : 'Could not unarchive this chat right now.',
+      );
+      debugPrint('Archive update failed: $error');
+    }
+  }
+
+  void _openChatWithUser(ChatUser user) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ChatScreen(
+          peerId: user.id,
+          peerName: user.name,
+          peerPhoto: user.photoUrl,
+          peerPhotoBase64: user.photoBase64,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _showChatListActions(
+    ChatUser user,
+    Map<String, dynamic>? chatData,
+  ) async {
+    final isArchived = _isChatArchived(chatData);
+
+    await showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: _surfaceColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      ),
+      builder: (sheetContext) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 18, 20, 24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  user.name,
+                  style: TextStyle(
+                    color: _primaryTextColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                _buildProfileActionRowTile(
+                  icon: Icons.chat_bubble_outline_rounded,
+                  title: 'Open chat',
+                  subtitle: 'Continue your conversation with ${user.name}',
+                  onTap: () async {
+                    Navigator.pop(sheetContext);
+                    _openChatWithUser(user);
+                  },
+                ),
+                const SizedBox(height: 10),
+                _buildProfileActionRowTile(
+                  icon: isArchived
+                      ? Icons.unarchive_outlined
+                      : Icons.archive_outlined,
+                  title: isArchived ? 'Unarchive chat' : 'Archive chat',
+                  subtitle: isArchived
+                      ? 'Bring this conversation back to the main list'
+                      : 'Hide this conversation from the main chat list',
+                  onTap: () async {
+                    Navigator.pop(sheetContext);
+                    await _setChatArchivedForPeer(user, !isArchived);
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _showArchivedChatsSheet() async {
+    if (!mounted) {
+      return;
+    }
+
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: _surfaceColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+      ),
+      builder: (sheetContext) {
+        return FractionallySizedBox(
+          heightFactor: 0.82,
+          child: SafeArea(
+            top: false,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 14, 14, 12),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Archived Chats',
+                              style: TextStyle(
+                                color: _primaryTextColor,
+                                fontSize: 21,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              'Quiet conversations live here until you bring them back.',
+                              style: TextStyle(
+                                color: _mutedTextColor,
+                                fontSize: 13.5,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () => Navigator.pop(sheetContext),
+                        icon: Icon(
+                          Icons.close_rounded,
+                          color: _primaryTextColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection('chats')
+                        .where('members', arrayContains: _currentUser.uid)
+                        .snapshots(),
+                    builder: (context, chatSnapshot) {
+                      if (!chatSnapshot.hasData) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+
+                      final chatDocs = chatSnapshot.data!.docs;
+                      final chatDataByUserId = <String, Map<String, dynamic>>{};
+                      final archivedUserIds = <String>{};
+
+                      for (final doc in chatDocs) {
+                        final data = doc.data() as Map<String, dynamic>;
+                        final members = List<String>.from(
+                          data['members'] ?? const [],
+                        );
+                        final otherUserId = members.firstWhere(
+                          (memberId) => memberId != _currentUser.uid,
+                          orElse: () => '',
+                        );
+
+                        if (otherUserId.isEmpty) {
+                          continue;
+                        }
+
+                        chatDataByUserId[otherUserId] = data;
+                        if (_isChatArchived(data)) {
+                          archivedUserIds.add(otherUserId);
+                        }
+                      }
+
+                      return StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection('users')
+                            .snapshots(),
+                        builder: (context, userSnapshot) {
+                          if (!userSnapshot.hasData) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+
+                          final archivedUsers = userSnapshot.data!.docs
+                              .map(
+                                (doc) => ChatUser.fromMap(
+                                  doc.data() as Map<String, dynamic>,
+                                ),
+                              )
+                              .where(
+                                (user) =>
+                                    archivedUserIds.contains(user.id) &&
+                                    user.id != _currentUser.uid,
+                              )
+                              .toList();
+
+                          final sortedArchivedUsers = _sortUsersByRecentChats(
+                            archivedUsers,
+                            chatDocs,
+                          );
+
+                          if (sortedArchivedUsers.isEmpty) {
+                            return Center(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 28,
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                      width: 76,
+                                      height: 76,
+                                      decoration: BoxDecoration(
+                                        color: _surfaceSoftColor,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Icon(
+                                        Icons.archive_outlined,
+                                        size: 36,
+                                        color: _primaryTextColor,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 18),
+                                    Text(
+                                      'No archived chats',
+                                      style: TextStyle(
+                                        color: _primaryTextColor,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      'Long press a conversation in Chats to move it here.',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: _mutedTextColor,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }
+
+                          return ListView.separated(
+                            padding: const EdgeInsets.fromLTRB(12, 4, 12, 18),
+                            itemCount: sortedArchivedUsers.length,
+                            separatorBuilder: (_, __) =>
+                                const SizedBox(height: 4),
+                            itemBuilder: (context, index) {
+                              final user = sortedArchivedUsers[index];
+                              final chatData = chatDataByUserId[user.id];
+                              final preview =
+                                  ((chatData?['lastMessage'] ?? '') as String)
+                                      .trim();
+                              final previewText = preview.isNotEmpty
+                                  ? preview
+                                  : user.email;
+
+                              return Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  borderRadius: BorderRadius.circular(22),
+                                  onTap: () {
+                                    Navigator.pop(sheetContext);
+                                    _openChatWithUser(user);
+                                  },
+                                  onLongPress: () async {
+                                    Navigator.pop(sheetContext);
+                                    await _setChatArchivedForPeer(user, false);
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                      vertical: 12,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: _surfaceSoftColor.withOpacity(
+                                        _isDark ? 0.42 : 0.72,
+                                      ),
+                                      borderRadius: BorderRadius.circular(22),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        _buildAvatar(
+                                          photoUrl: user.photoUrl,
+                                          photoBase64: user.photoBase64,
+                                          name: user.name,
+                                          showOnlineBadge: true,
+                                          isOnline: _isUserActiveNow(user),
+                                        ),
+                                        const SizedBox(width: 12),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                user.name,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  color: _primaryTextColor,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 4),
+                                              Text(
+                                                previewText,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  color: _mutedTextColor,
+                                                  fontSize: 13.5,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Text(
+                                              _formatMessageTime(
+                                                chatData?['lastMessageTime']
+                                                    as Timestamp?,
+                                              ),
+                                              style: TextStyle(
+                                                color: _mutedTextColor,
+                                                fontSize: 12.5,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 10),
+                                            Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                    horizontal: 10,
+                                                    vertical: 6,
+                                                  ),
+                                              decoration: BoxDecoration(
+                                                color: _surfaceColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(14),
+                                              ),
+                                              child: Text(
+                                                'Unarchive',
+                                                style: TextStyle(
+                                                  color: _primaryTextColor,
+                                                  fontSize: 11.5,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Future<void> _loadInstalledAppVersion() async {
     final installedInfo = await AppUpdateService.getInstalledAppInfo();
     if (!mounted || installedInfo == null) {
@@ -1163,21 +1583,85 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       (a, b) =>
                           a.name.toLowerCase().compareTo(b.name.toLowerCase()),
                     ));
+              final archivedUsers = showArchivedTile
+                  ? sortedUsers
+                      .where((user) => _isChatArchived(chatDataByUserId[user.id]))
+                      .toList()
+                  : const <ChatUser>[];
+              final visibleUsers = showArchivedTile
+                  ? sortedUsers
+                      .where(
+                        (user) => !_isChatArchived(chatDataByUserId[user.id]),
+                      )
+                      .toList()
+                  : sortedUsers;
+
+              if (showArchivedTile && visibleUsers.isEmpty) {
+                return ListView(
+                  padding: const EdgeInsets.fromLTRB(12, 6, 12, 120),
+                  children: [
+                    _buildArchivedTile(
+                      archivedUsers.length,
+                      onTap: _showArchivedChatsSheet,
+                    ),
+                    if (archivedUsers.isEmpty)
+                      Container(
+                        margin: const EdgeInsets.only(top: 18),
+                        padding: const EdgeInsets.all(22),
+                        decoration: BoxDecoration(
+                          color: _surfaceColor,
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.chat_bubble_outline_rounded,
+                              size: 32,
+                              color: _mutedTextColor,
+                            ),
+                            const SizedBox(height: 12),
+                            Text(
+                              'No chats yet',
+                              style: TextStyle(
+                                color: _primaryTextColor,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const SizedBox(height: 6),
+                            Text(
+                              'Use the add button to start a conversation.',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: _mutedTextColor,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
+                );
+              }
 
               return ListView.separated(
                 padding: const EdgeInsets.fromLTRB(12, 6, 12, 120),
-                itemCount: sortedUsers.length + (showArchivedTile ? 1 : 0),
+                itemCount: visibleUsers.length + (showArchivedTile ? 1 : 0),
                 separatorBuilder: (_, __) => const SizedBox(height: 2),
                 itemBuilder: (context, index) {
                   if (showArchivedTile && index == 0) {
-                    return _buildArchivedTile(sortedUsers.length);
+                    return _buildArchivedTile(
+                      archivedUsers.length,
+                      onTap: _showArchivedChatsSheet,
+                    );
                   }
 
                   final user =
-                      sortedUsers[showArchivedTile ? index - 1 : index];
+                      visibleUsers[showArchivedTile ? index - 1 : index];
                   return _buildUserListItem(
                     user,
                     chatDataByUserId[user.id],
+                    enableChatActions: showArchivedTile,
                   );
                 },
               );
@@ -1188,7 +1672,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
   }
 
-  Widget _buildArchivedTile(int count) {
+  Widget _buildArchivedTile(int count, {required VoidCallback onTap}) {
     return Container(
       margin: const EdgeInsets.only(bottom: 6),
       decoration: BoxDecoration(
@@ -1196,6 +1680,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         borderRadius: BorderRadius.circular(22),
       ),
       child: ListTile(
+        onTap: onTap,
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         leading: Container(
@@ -1249,7 +1734,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
   }
 
-  Widget _buildUserListItem(ChatUser user, Map<String, dynamic>? chatData) {
+  Widget _buildUserListItem(
+    ChatUser user,
+    Map<String, dynamic>? chatData, {
+    bool enableChatActions = false,
+  }) {
     String subtitle = 'No messages yet';
     String timeString = '';
     bool isMe = false;
@@ -1320,6 +1809,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             unreadCount: unreadCount,
             isOnline: isOnline,
             isPeerTyping: isPeerTyping,
+            onLongPress: enableChatActions && chatData != null
+                ? () => _showChatListActions(user, chatData)
+                : null,
           );
         },
       );
@@ -1335,6 +1827,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       unreadCount: unreadCount,
       isOnline: isOnline,
       isPeerTyping: isPeerTyping,
+      onLongPress: enableChatActions && chatData != null
+          ? () => _showChatListActions(user, chatData)
+          : null,
     );
   }
 
@@ -1348,24 +1843,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     required int unreadCount,
     required bool isOnline,
     required bool isPeerTyping,
+    VoidCallback? onLongPress,
   }) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
         borderRadius: BorderRadius.circular(22),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => ChatScreen(
-                peerId: user.id,
-                peerName: user.name,
-                peerPhoto: user.photoUrl,
-                peerPhotoBase64: user.photoBase64,
-              ),
-            ),
-          );
-        },
+        onTap: () => _openChatWithUser(user),
+        onLongPress: onLongPress,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
           child: Row(
@@ -1542,6 +2027,47 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               'Notifications are already connected to Firebase.',
             ),
           ),
+          StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('chats')
+                .where('members', arrayContains: _currentUser.uid)
+                .snapshots(),
+            builder: (context, snapshot) {
+              final archivedCount = snapshot.hasData
+                  ? snapshot.data!.docs.where((doc) {
+                      final data = doc.data() as Map<String, dynamic>;
+                      return _isChatArchived(data);
+                    }).length
+                  : 0;
+
+              return _buildSettingsTile(
+                icon: Icons.archive_outlined,
+                title: 'Archived Chats',
+                subtitle: archivedCount > 0
+                    ? '$archivedCount archived conversation${archivedCount == 1 ? '' : 's'} waiting here'
+                    : 'Review hidden conversations and bring them back anytime',
+                onTap: _showArchivedChatsSheet,
+                trailing: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: _surfaceSoftColor,
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Text(
+                    archivedCount.toString(),
+                    style: TextStyle(
+                      color: _primaryTextColor,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
           _buildSettingsTile(
             icon: Icons.system_update_alt_rounded,
             title: 'Check for Updates',
@@ -1591,14 +2117,30 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       stream: _currentUserDocStream,
       builder: (context, snapshot) {
         final profile = _currentProfileFromData(snapshot.data?.data());
+        final emailText = profile.email.isNotEmpty
+            ? profile.email
+            : 'No email linked';
 
         return Container(
           padding: const EdgeInsets.all(18),
           decoration: BoxDecoration(
-            color: _surfaceColor,
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                _surfaceColor,
+                _surfaceSoftColor.withOpacity(_isDark ? 0.62 : 0.82),
+              ],
+            ),
             borderRadius: BorderRadius.circular(24),
+            border: Border.all(
+              color: _isDark
+                  ? Colors.white.withOpacity(0.05)
+                  : const Color(0xFFDCE7F1),
+            ),
           ),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildAvatar(
                 photoUrl: profile.photoUrl,
@@ -1614,19 +2156,55 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
+                      'Signed in account',
+                      style: TextStyle(
+                        color: _mutedTextColor,
+                        fontSize: 12.5,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
                       profile.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: _primaryTextColor,
-                        fontSize: 18,
+                        fontSize: 19,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      profile.email.isNotEmpty ? profile.email : 'No email',
-                      style: TextStyle(
-                        color: _mutedTextColor,
-                        fontSize: 14,
+                    const SizedBox(height: 10),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 10,
+                      ),
+                      decoration: BoxDecoration(
+                        color: _surfaceColor.withOpacity(_isDark ? 0.84 : 0.92),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.alternate_email_rounded,
+                            size: 16,
+                            color: _accentColor,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              emailText,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: _secondaryTextColor,
+                                fontSize: 13.5,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
