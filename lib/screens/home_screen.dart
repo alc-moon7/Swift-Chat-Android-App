@@ -10,6 +10,7 @@ import 'package:swift_chat/api/apis.dart';
 import 'package:swift_chat/helper/avatar_provider.dart';
 import 'package:swift_chat/helper/dialogs.dart';
 import 'package:swift_chat/screens/chatscreen.dart';
+import 'package:swift_chat/services/app_update_service.dart';
 import 'package:swift_chat/services/notification_service.dart';
 import 'package:swift_chat/services/presence_service.dart';
 import 'package:image_picker/image_picker.dart';
@@ -140,7 +141,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   bool _isDialogOpen = false;
   bool _isSearchOpen = false;
+  bool _isCheckingUpdate = false;
   bool _isSigningOut = false;
+  String _appVersionLabel = '';
   String _searchQuery = '';
   _HomeTab _selectedTab = _HomeTab.chats;
 
@@ -169,6 +172,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     _setupNotifications();
     _startPresenceSync();
+    unawaited(_loadInstalledAppVersion());
   }
 
   @override
@@ -805,6 +809,107 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     widget.onThemeChanged(value);
   }
 
+  Future<void> _loadInstalledAppVersion() async {
+    final installedInfo = await AppUpdateService.getInstalledAppInfo();
+    if (!mounted || installedInfo == null) {
+      return;
+    }
+
+    setState(() {
+      _appVersionLabel = installedInfo.displayVersion;
+    });
+  }
+
+  Future<void> _checkForAppUpdate({bool userInitiated = true}) async {
+    if (_isCheckingUpdate) {
+      return;
+    }
+
+    setState(() {
+      _isCheckingUpdate = true;
+    });
+
+    final updateInfo = await AppUpdateService.checkForUpdate();
+
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      _isCheckingUpdate = false;
+      if (updateInfo.installedAppInfo != null) {
+        _appVersionLabel = updateInfo.installedAppInfo!.displayVersion;
+      }
+    });
+
+    switch (updateInfo.status) {
+      case AppUpdateCheckStatus.updateAvailable:
+        await _showAppUpdateDialog(updateInfo);
+        break;
+      case AppUpdateCheckStatus.upToDate:
+      case AppUpdateCheckStatus.noPublishedRelease:
+      case AppUpdateCheckStatus.unsupportedPlatform:
+      case AppUpdateCheckStatus.failed:
+        if (userInitiated) {
+          Dialogs.showSnackbar(context, updateInfo.message);
+        }
+        break;
+    }
+  }
+
+  Future<void> _showAppUpdateDialog(AppUpdateInfo updateInfo) async {
+    final releaseUrl = updateInfo.downloadUrl ?? updateInfo.releaseUrl ?? '';
+    final didTapUpdate = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text('Update available'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Current: ${updateInfo.installedAppInfo?.displayVersion ?? 'Unknown'}',
+              ),
+              const SizedBox(height: 6),
+              Text('Latest: v${updateInfo.latestVersion ?? 'Unknown'}'),
+              const SizedBox(height: 12),
+              Text(
+                AppUpdateService.normalizeReleaseNotes(updateInfo.releaseNotes),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(false),
+              child: const Text('Later'),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.of(dialogContext).pop(true),
+              child: const Text('Update'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (didTapUpdate != true || releaseUrl.isEmpty) {
+      return;
+    }
+
+    final didOpen = await AppUpdateService.openUpdateUrl(releaseUrl);
+    if (!mounted) {
+      return;
+    }
+
+    if (!didOpen) {
+      Dialogs.showSnackbar(
+        context,
+        'Could not open the GitHub update link right now.',
+      );
+    }
+  }
+
   Future<void> _signOut() async {
     if (_isSigningOut) {
       return;
@@ -1436,6 +1541,27 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               context,
               'Notifications are already connected to Firebase.',
             ),
+          ),
+          _buildSettingsTile(
+            icon: Icons.system_update_alt_rounded,
+            title: 'Check for Updates',
+            subtitle: _appVersionLabel.isNotEmpty
+                ? 'Current $_appVersionLabel. Check GitHub Releases for a newer APK'
+                : 'Check GitHub Releases for the latest APK',
+            onTap: () => _checkForAppUpdate(),
+            trailing: _isCheckingUpdate
+                ? SizedBox(
+                    width: 22,
+                    height: 22,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.3,
+                      valueColor: AlwaysStoppedAnimation<Color>(_accentColor),
+                    ),
+                  )
+                : Icon(
+                    Icons.download_rounded,
+                    color: _mutedTextColor,
+                  ),
           ),
           _buildSettingsTile(
             icon: Icons.share_outlined,
