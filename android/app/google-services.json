@@ -49,6 +49,43 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:205981391089:android:373191cd35457c581ab150",
+        "android_client_info": {
+          "package_name": "com.swift.chat.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "205981391089-0jde08khbap8542ioldaaa2ckk4vekv2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.swift.chat.android",
+            "certificate_hash": "cea6c9a248d6a145eda222d60740f40c08284ff8"
+          }
+        },
+        {
+          "client_id": "205981391089-1v9tq6c2rn8t3te7ndacuhb9or3eh5di.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlD6sRgN7ffRpPFadILsPI0RUiEn2oSFA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "205981391089-1v9tq6c2rn8t3te7ndacuhb9or3eh5di.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

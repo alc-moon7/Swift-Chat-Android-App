@@ -1,4 +1,4 @@
-package com.example.swift_chat
+package com.swift.chat.android
 
 import android.content.Intent
 import android.content.pm.PackageManager

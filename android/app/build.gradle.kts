@@ -6,12 +6,12 @@ plugins {
 }
 
 android {
-    namespace = "com.example.swift_chat" 
+    namespace = "com.swift.chat.android" 
     compileSdk = 35
     ndkVersion = "29.0.13113456"
 
     defaultConfig {
-        applicationId = "com.example.swift_chat"  
+        applicationId = "com.swift.chat.android"  
         minSdk = 26
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
