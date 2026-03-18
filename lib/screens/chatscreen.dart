@@ -1048,27 +1048,9 @@ class MessageBubble extends StatelessWidget {
       bottomLeft: isMe ? const Radius.circular(22) : const Radius.circular(8),
       bottomRight: isMe ? const Radius.circular(8) : const Radius.circular(22),
     );
-    final maxBubbleWidth = MediaQuery.of(context).size.width * 0.76;
-    const horizontalPadding = 32.0;
-    const minBubbleWidth = 88.0;
-
-    final textPainter = TextPainter(
-      text: TextSpan(text: text, style: textStyle),
-      textDirection: textDirection,
-      textWidthBasis: TextWidthBasis.longestLine,
-      maxLines: null,
-    )..layout(maxWidth: maxBubbleWidth - horizontalPadding);
-
-    final timePainter = TextPainter(
-      text: TextSpan(text: time, style: timeStyle),
-      textDirection: textDirection,
-      maxLines: 1,
-    )..layout();
-
-    final footerWidth = timePainter.width + (isMe ? 22 : 0);
-    final contentWidth = math.max(textPainter.width, footerWidth);
-    final bubbleWidth =
-        (contentWidth + horizontalPadding).clamp(minBubbleWidth, maxBubbleWidth);
+    final hasPeerAvatar =
+        !isMe &&
+        ((peerPhoto?.isNotEmpty ?? false) || (peerPhotoBase64?.isNotEmpty ?? false));
 
     return Padding(
       padding: EdgeInsets.only(
@@ -1077,90 +1059,123 @@ class MessageBubble extends StatelessWidget {
         left: isMe ? 48 : 0,
         right: isMe ? 0 : 48,
       ),
-      child: Row(
-        mainAxisAlignment:
-            isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          if (!isMe &&
-              ((peerPhoto?.isNotEmpty ?? false) ||
-                  (peerPhotoBase64?.isNotEmpty ?? false)))
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: CircleAvatar(
-                radius: 14,
-                backgroundImage: buildAvatarImageProvider(
-                  photoUrl: peerPhoto,
-                  photoBase64: peerPhotoBase64,
-                ),
-                ),
-              ),
-          GestureDetector(
-            onLongPress: onLongPress,
-            child: SizedBox(
-              width: bubbleWidth,
-              child: AnimatedContainer(
-              duration: const Duration(milliseconds: 280),
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-              decoration: BoxDecoration(
-                color: isMe ? null : incomingBubbleColor,
-                gradient: isMe ? outgoingGradient : null,
-                borderRadius: bubbleRadius,
-                border: isMe
-                    ? null
-                    : Border.all(
-                        color: isDark
-                            ? Colors.white.withOpacity(0.04)
-                            : const Color(0xFFDDE8F1),
-                      ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(isDark ? 0.18 : 0.05),
-                    blurRadius: 14,
-                    offset: const Offset(0, 6),
-                  ),
-                ],
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        text,
-                        style: textStyle,
-                      ),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          const horizontalPadding = 32.0;
+          const minBubbleWidth = 88.0;
+          const avatarFootprint = 36.0;
+          final maxBubbleWidth = math.max(
+            minBubbleWidth,
+            math.min(
+              constraints.maxWidth - (hasPeerAvatar ? avatarFootprint : 0),
+              MediaQuery.of(context).size.width * 0.76,
+            ),
+          );
+
+          final textPainter = TextPainter(
+            text: TextSpan(text: text, style: textStyle),
+            textDirection: textDirection,
+            textWidthBasis: TextWidthBasis.longestLine,
+            maxLines: null,
+          )..layout(maxWidth: maxBubbleWidth - horizontalPadding);
+
+          final timePainter = TextPainter(
+            text: TextSpan(text: time, style: timeStyle),
+            textDirection: textDirection,
+            maxLines: 1,
+          )..layout();
+
+          final footerWidth = timePainter.width + (isMe ? 22 : 0);
+          final contentWidth = math.max(textPainter.width, footerWidth);
+          final bubbleWidth =
+              (contentWidth + horizontalPadding)
+                  .clamp(minBubbleWidth, maxBubbleWidth)
+                  .toDouble();
+
+          return Row(
+            mainAxisAlignment:
+                isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              if (hasPeerAvatar)
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: CircleAvatar(
+                    radius: 14,
+                    backgroundImage: buildAvatarImageProvider(
+                      photoUrl: peerPhoto,
+                      photoBase64: peerPhotoBase64,
                     ),
-                    const SizedBox(height: 8),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          time,
-                          style: timeStyle,
-                        ),
-                        if (isMe && !isDeletedMessage)
-                          Padding(
-                            padding: const EdgeInsets.only(left: 4),
-                            child: Icon(
-                              isRead
-                                  ? Icons.done_all_rounded
-                                  : Icons.done_rounded,
-                              size: 16,
-                              color: isRead
-                                  ? const Color(0xFFBDF3FF)
-                                  : Colors.white.withOpacity(0.78),
+                  ),
+                ),
+              GestureDetector(
+                onLongPress: onLongPress,
+                child: SizedBox(
+                  width: bubbleWidth,
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 280),
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                    decoration: BoxDecoration(
+                      color: isMe ? null : incomingBubbleColor,
+                      gradient: isMe ? outgoingGradient : null,
+                      borderRadius: bubbleRadius,
+                      border: isMe
+                          ? null
+                          : Border.all(
+                              color: isDark
+                                  ? Colors.white.withOpacity(0.04)
+                                  : const Color(0xFFDDE8F1),
                             ),
-                          ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(isDark ? 0.18 : 0.05),
+                          blurRadius: 14,
+                          offset: const Offset(0, 6),
+                        ),
                       ],
                     ),
-                  ],
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            text,
+                            style: textStyle,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              time,
+                              style: timeStyle,
+                            ),
+                            if (isMe && !isDeletedMessage)
+                              Padding(
+                                padding: const EdgeInsets.only(left: 4),
+                                child: Icon(
+                                  isRead
+                                      ? Icons.done_all_rounded
+                                      : Icons.done_rounded,
+                                  size: 16,
+                                  color: isRead
+                                      ? const Color(0xFFBDF3FF)
+                                      : Colors.white.withOpacity(0.78),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }
