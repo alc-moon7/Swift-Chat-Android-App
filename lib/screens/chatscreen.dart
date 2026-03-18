@@ -743,6 +743,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     ],
                   ),
                 ),
+                _buildTypingBanner(peerName),
                 SafeArea(child: _buildInputArea()),
               ],
             ),
@@ -799,6 +800,59 @@ class _ChatScreenState extends State<ChatScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildTypingBanner(String peerName) {
+    return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+      stream: _firestore.collection('chats').doc(_chatId).snapshots(),
+      builder: (context, snapshot) {
+        final chatData = snapshot.data?.data();
+        final typingData =
+            Map<String, dynamic>.from(chatData?['typing'] ?? const {});
+        final isPeerTyping = typingData[widget.peerId] == true;
+
+        return AnimatedSwitcher(
+          duration: const Duration(milliseconds: 220),
+          switchInCurve: Curves.easeOutCubic,
+          switchOutCurve: Curves.easeInCubic,
+          child: isPeerTyping
+              ? Padding(
+                  key: const ValueKey<String>('typing-banner'),
+                  padding: const EdgeInsets.fromLTRB(18, 0, 18, 4),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 7,
+                      ),
+                      decoration: BoxDecoration(
+                        color: _isDark
+                            ? _surfaceColor.withOpacity(0.96)
+                            : Colors.white.withOpacity(0.96),
+                        borderRadius: BorderRadius.circular(999),
+                        border: Border.all(
+                          color: _accentColor.withOpacity(0.18),
+                        ),
+                      ),
+                      child: Text(
+                        '$peerName is typing...',
+                        style: TextStyle(
+                          color: _accentColor,
+                          fontSize: 12.5,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              : const SizedBox(
+                  key: ValueKey<String>('typing-banner-empty'),
+                ),
+        );
+      },
     );
   }
 

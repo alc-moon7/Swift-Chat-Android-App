@@ -1,20 +1,21 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swift_chat/firebase_options.dart';
 import 'package:swift_chat/screens/auth/login_screen.dart';
 import 'package:swift_chat/screens/home_screen.dart';
 import 'package:swift_chat/screens/splace_screen.dart';
 import 'package:swift_chat/services/notification_service.dart';
 
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  debugPrint(
-    '[Background] Message: ${message.notification?.title} - ${message.notification?.body}',
-  );
-}
+const String _themePreferenceKey = 'swift_chat_is_dark_mode';
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) =>
+    NotificationService.firebaseBackgroundHandler(message);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,11 +33,14 @@ void main() async {
 
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     await NotificationService.initialize();
+    final preferences = await SharedPreferences.getInstance();
+    final initialDarkMode =
+        preferences.getBool(_themePreferenceKey) ?? false;
 
     final token = await FirebaseMessaging.instance.getToken();
     debugPrint('FCM token: $token');
 
-    runApp(const MyApp());
+    runApp(MyApp(initialDarkMode: initialDarkMode));
   } catch (error) {
     debugPrint('Initialization failed: $error');
     runApp(const ErrorApp());
@@ -44,19 +48,40 @@ void main() async {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final bool initialDarkMode;
+
+  const MyApp({
+    Key? key,
+    required this.initialDarkMode,
+  }) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  bool isDarkMode = false;
+  late bool isDarkMode;
 
-  void toggleTheme(bool value) {
+  @override
+  void initState() {
+    super.initState();
+    isDarkMode = widget.initialDarkMode;
+  }
+
+  Future<void> toggleTheme(bool value) async {
+    if (isDarkMode == value) {
+      return;
+    }
+
     setState(() {
       isDarkMode = value;
     });
+
+    unawaited(
+      SharedPreferences.getInstance().then(
+        (preferences) => preferences.setBool(_themePreferenceKey, value),
+      ),
+    );
   }
 
   @override

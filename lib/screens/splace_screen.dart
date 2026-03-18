@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:swift_chat/screens/auth/login_screen.dart';
 import 'package:swift_chat/screens/home_screen.dart';
+import 'package:swift_chat/services/app_update_service.dart';
 import 'package:swift_chat/services/notification_service.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -32,6 +33,7 @@ class _SplashScreenState extends State<SplashScreen>
   late Animation<double> _textFade;
   Timer? _navigationTimer;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  bool _isUpdateDialogVisible = false;
 
   @override
   void initState() {
@@ -106,6 +108,10 @@ class _SplashScreenState extends State<SplashScreen>
       if (!mounted) return;
 
       await _handleNotifications();
+      final shouldContinue = await _handleLaunchUpdateCheck();
+      if (!mounted || !shouldContinue) {
+        return;
+      }
 
       final user = FirebaseAuth.instance.currentUser;
       if (user == null) {
@@ -114,6 +120,74 @@ class _SplashScreenState extends State<SplashScreen>
         _navigateToHome();
       }
     });
+  }
+
+  Future<bool> _handleLaunchUpdateCheck() async {
+    final updateInfo = await AppUpdateService.checkForUpdate();
+    if (!mounted) {
+      return false;
+    }
+
+    if (updateInfo.status != AppUpdateCheckStatus.updateAvailable ||
+        _isUpdateDialogVisible) {
+      return true;
+    }
+
+    _isUpdateDialogVisible = true;
+    final releaseUrl = updateInfo.downloadUrl ?? updateInfo.releaseUrl ?? '';
+    final didTapDownload = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text('Update available'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Current: ${updateInfo.installedAppInfo?.displayVersion ?? 'Unknown'}',
+              ),
+              const SizedBox(height: 6),
+              Text('Latest: v${updateInfo.latestVersion ?? 'Unknown'}'),
+              const SizedBox(height: 12),
+              Text(
+                AppUpdateService.normalizeReleaseNotes(updateInfo.releaseNotes),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(false),
+              child: const Text('Later'),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.of(dialogContext).pop(true),
+              child: const Text('Download'),
+            ),
+          ],
+        );
+      },
+    );
+
+    _isUpdateDialogVisible = false;
+
+    if (!mounted) {
+      return false;
+    }
+
+    if (didTapDownload == true && releaseUrl.isNotEmpty) {
+      final didOpen = await AppUpdateService.openUpdateUrl(releaseUrl);
+      if (!didOpen && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Could not open the update link right now.'),
+          ),
+        );
+      }
+    }
+
+    return true;
   }
 
   void _showPermissionDialog() {

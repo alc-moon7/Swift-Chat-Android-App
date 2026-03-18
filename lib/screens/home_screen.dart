@@ -1318,6 +1318,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     final releaseUrl = updateInfo.downloadUrl ?? updateInfo.releaseUrl ?? '';
     final didTapUpdate = await showDialog<bool>(
       context: context,
+      barrierDismissible: false,
       builder: (dialogContext) {
         return AlertDialog(
           title: const Text('Update available'),
@@ -1343,7 +1344,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             ),
             FilledButton(
               onPressed: () => Navigator.of(dialogContext).pop(true),
-              child: const Text('Update'),
+              child: const Text('Download'),
             ),
           ],
         );

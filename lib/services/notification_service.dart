@@ -31,6 +31,7 @@ class NotificationService {
       return;
     }
 
+    await _firebaseMessaging.setAutoInitEnabled(true);
     const androidInitializationSettings =
         AndroidInitializationSettings('@mipmap/ic_launcher');
     const iosInitializationSettings = DarwinInitializationSettings(
@@ -52,6 +53,11 @@ class NotificationService {
       },
     );
 
+    await _firebaseMessaging.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
     await _requestPermissions();
     await _createNotificationChannel();
 
