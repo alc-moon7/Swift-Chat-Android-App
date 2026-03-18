@@ -1,0 +1,23 @@
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub/
+build/
+
+# IDE / editor
+.idea/
+.vscode/
+
+# Local / generated logs
+*.log
+firebase-debug.log
+.firebaserc
+
+# Platform-local files
+android/local.properties
+ios/Flutter/ephemeral/
+macos/Flutter/ephemeral/
+linux/flutter/ephemeral/
+windows/flutter/ephemeral/

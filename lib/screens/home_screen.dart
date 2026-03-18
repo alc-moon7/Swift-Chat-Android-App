@@ -45,20 +45,56 @@ class ChatUser {
 
   factory ChatUser.fromMap(Map<String, dynamic> data) {
     return ChatUser(
-      id: data['uid'] ?? data['id'] ?? '',
-      name: data['name'] ?? '',
-      email: data['email'] ?? '',
-      photoUrl: data['photoUrl'] ?? data['photo'] ?? '',
-      photoBase64: data['photoBase64'] ?? data['avatarBase64'] ?? '',
+      id: _safeString(data['uid'] ?? data['id']),
+      name: _safeString(data['name'], fallback: 'User'),
+      email: _safeString(data['email']),
+      photoUrl: _safeString(data['photoUrl'] ?? data['photo']),
+      photoBase64: _safeString(data['photoBase64'] ?? data['avatarBase64']),
       isOnline: data['isOnline'] == true,
-      lastSeen: data['lastSeen'] as Timestamp?,
-      lastActiveAt: data['lastActiveAt'] as Timestamp?,
-      phone: data['phone'] ?? '',
-      bio: data['bio'] ?? '',
-      username: data['username'] ?? '',
-      birthday: data['birthday'] as Timestamp?,
+      lastSeen: _safeTimestamp(data['lastSeen']),
+      lastActiveAt: _safeTimestamp(data['lastActiveAt']),
+      phone: _safeString(data['phone']),
+      bio: _safeString(data['bio']),
+      username: _safeString(data['username']),
+      birthday: _safeTimestamp(data['birthday']),
     );
   }
+}
+
+String _safeString(dynamic value, {String fallback = ''}) {
+  if (value == null) {
+    return fallback;
+  }
+
+  if (value is String) {
+    final trimmed = value.trim();
+    return trimmed.isNotEmpty ? trimmed : fallback;
+  }
+
+  return value.toString();
+}
+
+Timestamp? _safeTimestamp(dynamic value) {
+  if (value is Timestamp) {
+    return value;
+  }
+
+  if (value is DateTime) {
+    return Timestamp.fromDate(value);
+  }
+
+  if (value is int) {
+    return Timestamp.fromMillisecondsSinceEpoch(value);
+  }
+
+  if (value is String) {
+    final parsed = DateTime.tryParse(value);
+    if (parsed != null) {
+      return Timestamp.fromDate(parsed);
+    }
+  }
+
+  return null;
 }
 
 class _MessagePreviewData {
@@ -302,14 +338,24 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       text: profile.username,
     );
     DateTime? selectedBirthday = profile.birthday?.toDate();
+    final earliestBirthday = DateTime(1950, 1, 1);
+    final latestBirthday = DateTime.now();
     bool isSaving = false;
+
+    if (selectedBirthday != null) {
+      if (selectedBirthday.isBefore(earliestBirthday)) {
+        selectedBirthday = earliestBirthday;
+      } else if (selectedBirthday.isAfter(latestBirthday)) {
+        selectedBirthday = latestBirthday;
+      }
+    }
 
     Future<void> pickBirthday(StateSetter setSheetState) async {
       final pickedDate = await showDatePicker(
         context: parentContext,
         initialDate: selectedBirthday ?? DateTime(2000, 1, 1),
-        firstDate: DateTime(1950),
-        lastDate: DateTime.now(),
+        firstDate: earliestBirthday,
+        lastDate: latestBirthday,
       );
 
       if (pickedDate != null) {
@@ -451,12 +497,25 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                       bioController.text.trim();
                                   final normalizedUsername =
                                       usernameController.text.trim();
+                                  final normalizedDisplayName =
+                                      normalizedName.isNotEmpty
+                                      ? normalizedName
+                                      : profile.name.trim();
+
+                                  if (normalizedDisplayName.isEmpty) {
+                                    setSheetState(() {
+                                      isSaving = false;
+                                    });
+                                    Dialogs.showSnackbar(
+                                      parentContext,
+                                      'Name cannot be empty.',
+                                    );
+                                    return;
+                                  }
 
                                   try {
                                     await _saveProfileData({
-                                      'name': normalizedName.isNotEmpty
-                                          ? normalizedName
-                                          : profile.name,
+                                      'name': normalizedDisplayName,
                                       'phone': normalizedPhone,
                                       'bio': normalizedBio,
                                       'username': _normalizeUsername(
@@ -475,8 +534,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                       return;
                                     }
 
-                                    if (Navigator.of(sheetContext).canPop()) {
-                                      Navigator.of(sheetContext).pop();
+                                    final rootNavigator = Navigator.of(
+                                      parentContext,
+                                      rootNavigator: true,
+                                    );
+                                    if (rootNavigator.canPop()) {
+                                      rootNavigator.pop();
                                     }
 
                                     Dialogs.showSnackbar(
@@ -488,9 +551,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                       return;
                                     }
 
-                                    setSheetState(() {
-                                      isSaving = false;
-                                    });
+                                    if (sheetContext.mounted) {
+                                      setSheetState(() {
+                                        isSaving = false;
+                                      });
+                                    }
                                     Dialogs.showSnackbar(
                                       parentContext,
                                       'Could not update profile right now.',
