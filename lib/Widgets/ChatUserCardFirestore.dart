@@ -22,9 +22,8 @@ class ChatUserCardFirestore extends StatelessWidget {
   final currentUser = FirebaseAuth.instance.currentUser!;
 
   String get chatId {
-    return currentUser.uid.hashCode <= peerId.hashCode
-        ? '${currentUser.uid}_$peerId'
-        : '${peerId}_${currentUser.uid}';
+    final ids = [currentUser.uid, peerId]..sort();
+    return '${ids[0]}_${ids[1]}';
   }
 
   @override

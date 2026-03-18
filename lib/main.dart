@@ -1,88 +1,48 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'firebase_options.dart';
+import 'package:swift_chat/firebase_options.dart';
+import 'package:swift_chat/screens/auth/login_screen.dart';
 import 'package:swift_chat/screens/home_screen.dart';
 import 'package:swift_chat/screens/splace_screen.dart';
+import 'package:swift_chat/services/notification_service.dart';
 
-// Background message handler (must be top-level)
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  print(
-      '🔔 [Background] Message: ${message.notification?.title} - ${message.notification?.body}');
+  debugPrint(
+    '[Background] Message: ${message.notification?.title} - ${message.notification?.body}',
+  );
 }
-
-// Local Notification Plugin
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   try {
-    // Status/navigation bars
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     await SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
 
-    // Firebase Init
     await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform);
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
-    // FCM background
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    await NotificationService.initialize();
 
-    // FCM foreground notification setup
-    await _setupLocalNotifications();
-
-    // 🔑 Get FCM token
-    String? token = await FirebaseMessaging.instance.getToken();
-    print("📱 FCM Token: $token");
+    final token = await FirebaseMessaging.instance.getToken();
+    debugPrint('FCM token: $token');
 
     runApp(const MyApp());
-  } catch (e) {
+  } catch (error) {
+    debugPrint('Initialization failed: $error');
     runApp(const ErrorApp());
   }
 }
 
-// 🛠️ Configure local notifications
-Future<void> _setupLocalNotifications() async {
-  const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
-
-  const InitializationSettings initializationSettings =
-      InitializationSettings(android: initializationSettingsAndroid);
-
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    RemoteNotification? notification = message.notification;
-    AndroidNotification? android = message.notification?.android;
-
-    if (notification != null && android != null) {
-      flutterLocalNotificationsPlugin.show(
-        notification.hashCode,
-        notification.title,
-        notification.body,
-        const NotificationDetails(
-          android: AndroidNotificationDetails(
-            'swift_chat_channel', // Channel ID
-            'Swift Chat Notifications', // Channel Name
-            importance: Importance.high,
-            priority: Priority.high,
-          ),
-        ),
-      );
-    }
-  });
-}
-
-// 🟢 Main App
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -101,17 +61,39 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      isDarkMode
-          ? SystemUiOverlayStyle.light
-          : SystemUiOverlayStyle.dark
-              .copyWith(statusBarColor: Colors.transparent),
+    final overlayStyle = SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Colors.transparent,
+      statusBarIconBrightness: isDarkMode ? Brightness.light : Brightness.dark,
+      systemNavigationBarIconBrightness:
+          isDarkMode ? Brightness.light : Brightness.dark,
+      statusBarBrightness: isDarkMode ? Brightness.dark : Brightness.light,
     );
+
+    SystemChrome.setSystemUIOverlayStyle(overlayStyle);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Swift Chat',
-      theme: isDarkMode ? _darkTheme() : _lightTheme(),
+      theme: _lightTheme(),
+      darkTheme: _darkTheme(),
+      themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      themeAnimationDuration: const Duration(milliseconds: 320),
+      themeAnimationCurve: Curves.easeInOutCubic,
+      routes: {
+        '/login': (_) => LoginScreen(
+              isDarkMode: isDarkMode,
+              onThemeChanged: toggleTheme,
+            ),
+        '/home': (_) => HomeScreen(
+              isDarkMode: isDarkMode,
+              onThemeChanged: toggleTheme,
+            ),
+        '/splash': (_) => SplashScreen(
+              isDarkMode: isDarkMode,
+              onThemeChanged: toggleTheme,
+            ),
+      },
       home: AuthWrapper(
         isDarkMode: isDarkMode,
         onThemeChanged: toggleTheme,
@@ -120,31 +102,98 @@ class _MyAppState extends State<MyApp> {
   }
 
   ThemeData _lightTheme() {
-    return ThemeData(
-      primarySwatch: Colors.blue,
+    const colorScheme = ColorScheme.light(
+      primary: Color(0xFF1485EA),
+      secondary: Color(0xFF2EA6FF),
+      surface: Colors.white,
+      onPrimary: Colors.white,
+      onSecondary: Colors.white,
+      onSurface: Color(0xFF17212B),
+    );
+
+    return ThemeData.from(
+      colorScheme: colorScheme,
+      useMaterial3: true,
+    ).copyWith(
+      scaffoldBackgroundColor: const Color(0xFFF3F7FB),
       appBarTheme: const AppBarTheme(
-        centerTitle: true,
-        elevation: 1,
-        iconTheme: IconThemeData(color: Colors.black),
-        backgroundColor: Color.fromARGB(255, 97, 170, 248),
+        centerTitle: false,
+        elevation: 0,
+        backgroundColor: Color(0xFFF3F7FB),
+        foregroundColor: Color(0xFF17212B),
       ),
-      scaffoldBackgroundColor: const Color(0xFFF0F0F0),
+      popupMenuTheme: PopupMenuThemeData(
+        color: colorScheme.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+      ),
+      dialogTheme: DialogTheme(
+        backgroundColor: colorScheme.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      ),
+      switchTheme: SwitchThemeData(
+        thumbColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return colorScheme.primary;
+          }
+          return Colors.white;
+        }),
+        trackColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return colorScheme.primary.withOpacity(0.45);
+          }
+          return const Color(0xFFD5DFEA);
+        }),
+      ),
     );
   }
 
   ThemeData _darkTheme() {
-    return ThemeData.dark().copyWith(
+    const colorScheme = ColorScheme.dark(
+      primary: Color(0xFF2EA6FF),
+      secondary: Color(0xFF67C1FF),
+      surface: Color(0xFF1E2C38),
+      onPrimary: Colors.white,
+      onSecondary: Colors.white,
+      onSurface: Colors.white,
+    );
+
+    return ThemeData.from(
+      colorScheme: colorScheme,
+      useMaterial3: true,
+    ).copyWith(
+      scaffoldBackgroundColor: const Color(0xFF17212B),
       appBarTheme: const AppBarTheme(
-        centerTitle: true,
-        elevation: 1,
-        backgroundColor: Colors.black87,
+        centerTitle: false,
+        elevation: 0,
+        backgroundColor: Color(0xFF17212B),
+        foregroundColor: Colors.white,
       ),
-      scaffoldBackgroundColor: Colors.grey[900],
+      popupMenuTheme: PopupMenuThemeData(
+        color: colorScheme.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+      ),
+      dialogTheme: DialogTheme(
+        backgroundColor: colorScheme.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      ),
+      switchTheme: SwitchThemeData(
+        thumbColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return colorScheme.primary;
+          }
+          return const Color(0xFFCCD6E0);
+        }),
+        trackColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return colorScheme.primary.withOpacity(0.45);
+          }
+          return const Color(0xFF324454);
+        }),
+      ),
     );
   }
 }
 
-// 👤 Auth Wrapper
 class AuthWrapper extends StatelessWidget {
   final bool isDarkMode;
   final Function(bool) onThemeChanged;
@@ -182,7 +231,6 @@ class AuthWrapper extends StatelessWidget {
   }
 }
 
-// ❌ Error App
 class ErrorApp extends StatelessWidget {
   const ErrorApp({Key? key}) : super(key: key);
 

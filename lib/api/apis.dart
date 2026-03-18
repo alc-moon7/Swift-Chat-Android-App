@@ -1,6 +1,9 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:swift_chat/services/notification_service.dart';
+import 'package:swift_chat/services/presence_service.dart';
 
 class AuthService {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -39,8 +42,25 @@ class AuthService {
   }
 
   static Future<void> signOut() async {
+    final currentUser = _auth.currentUser;
+
+    if (currentUser != null) {
+      await Future.wait([
+        PresenceService.instance
+            .stop(user: currentUser, markOffline: true)
+            .timeout(const Duration(seconds: 3), onTimeout: () {}),
+        NotificationService.clearTokenForUser(currentUser)
+            .timeout(const Duration(seconds: 3), onTimeout: () {}),
+      ]).catchError((error) {
+        return <Future<void>>[];
+      });
+    }
+
     await _auth.signOut();
-    await _googleSignIn.signOut();
+
+    unawaited(
+      _googleSignIn.signOut().catchError((_) => null),
+    );
   }
 }
 

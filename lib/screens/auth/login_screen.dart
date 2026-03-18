@@ -5,6 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:swift_chat/helper/dialogs.dart';
 import 'package:swift_chat/screens/home_screen.dart';
+import 'package:swift_chat/services/notification_service.dart';
 
 class LoginScreen extends StatefulWidget {
   final bool isDarkMode;
@@ -99,6 +100,7 @@ class _LoginScreenState extends State<LoginScreen>
 
       if (user != null && mounted) {
         await _saveUserToFirestoreIfNotExists(user);
+        await NotificationService.syncTokenForUser(user);
         _navigateToHome();
       }
     } on SocketException {
@@ -116,16 +118,23 @@ class _LoginScreenState extends State<LoginScreen>
     final userRef =
         FirebaseFirestore.instance.collection('users').doc(user.uid);
     final userDoc = await userRef.get();
+    final existingData = userDoc.data() ?? const <String, dynamic>{};
 
-    if (!userDoc.exists) {
-      await userRef.set({
-        'name': user.displayName,
-        'email': user.email,
-        'photoUrl': user.photoURL,
-        'uid': user.uid,
-        'createdAt': FieldValue.serverTimestamp(),
-      });
-    }
+    await userRef.set({
+      'name': existingData['name'] ?? user.displayName ?? 'User',
+      'email': user.email ?? existingData['email'] ?? '',
+      'photoUrl': existingData['photoUrl'] ?? user.photoURL ?? '',
+      'photoBase64': existingData['photoBase64'] ?? '',
+      'phone': existingData['phone'] ?? '',
+      'bio': existingData['bio'] ?? '',
+      'username': existingData['username'] ?? '',
+      'birthday': existingData['birthday'],
+      'uid': user.uid,
+      'isOnline': true,
+      'lastActiveAt': FieldValue.serverTimestamp(),
+      'lastSeen': FieldValue.serverTimestamp(),
+      if (!userDoc.exists) 'createdAt': FieldValue.serverTimestamp(),
+    }, SetOptions(merge: true));
   }
 
   void _navigateToHome() {

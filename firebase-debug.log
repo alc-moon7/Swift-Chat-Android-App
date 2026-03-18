@@ -1,0 +1,671 @@
+[debug] [2026-03-18T10:37:53.293Z] ----------------------------------------------------------------------
+[debug] [2026-03-18T10:37:53.307Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Moon Ahmed\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js projects:list
+[debug] [2026-03-18T10:37:53.308Z] CLI Version:   15.10.1
+[debug] [2026-03-18T10:37:53.308Z] Platform:      win32
+[debug] [2026-03-18T10:37:53.308Z] Node Version:  v24.14.0
+[debug] [2026-03-18T10:37:53.309Z] Time:          Wed Mar 18 2026 16:37:53 GMT+0600 (Bangladesh Standard Time)
+[debug] [2026-03-18T10:37:53.309Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-18T10:37:54.282Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[debug] [2026-03-18T10:37:54.293Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T10:37:54.293Z] > authorizing via signed-in user (zerosmoon.ff@gmail.com)
+[debug] [2026-03-18T10:37:54.302Z] Checked if tokens are valid: true, expires at: 1773832802132
+[debug] [2026-03-18T10:37:54.303Z] Checked if tokens are valid: true, expires at: 1773832802132
+[debug] [2026-03-18T10:37:54.306Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=1000
+[debug] [2026-03-18T10:37:53.591Z] ----------------------------------------------------------------------
+[debug] [2026-03-18T10:37:53.601Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Moon Ahmed\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js use swift-400b0
+[debug] [2026-03-18T10:37:53.602Z] CLI Version:   15.10.1
+[debug] [2026-03-18T10:37:53.603Z] Platform:      win32
+[debug] [2026-03-18T10:37:53.603Z] Node Version:  v24.14.0
+[debug] [2026-03-18T10:37:53.603Z] Time:          Wed Mar 18 2026 16:37:53 GMT+0600 (Bangladesh Standard Time)
+[debug] [2026-03-18T10:37:53.603Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-18T10:37:54.813Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[debug] [2026-03-18T10:37:54.908Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T10:37:54.921Z] > authorizing via signed-in user (zerosmoon.ff@gmail.com)
+[debug] [2026-03-18T10:37:54.951Z] Checked if tokens are valid: true, expires at: 1773832802132
+[debug] [2026-03-18T10:37:54.954Z] Checked if tokens are valid: true, expires at: 1773832802132
+[debug] [2026-03-18T10:37:54.958Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudresourcemanager.googleapis.com [none]
+[debug] [2026-03-18T10:37:54.958Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudresourcemanager.googleapis.com  x-goog-user-project=swift-400b0
+[debug] [2026-03-18T10:37:55.523Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2026-03-18T10:37:55.524Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] ┌──────────────────────┬─────────────────────┬────────────────┬──────────────────────┐
+│ Project Display Name │ Project ID          │ Project Number │ Resource Location ID │
+├──────────────────────┼─────────────────────┼────────────────┼──────────────────────┤
+│ moon-protfolio       │ moon-protfolio-2207 │ 981735535382   │ [Not specified]      │
+├──────────────────────┼─────────────────────┼────────────────┼──────────────────────┤
+│ portfolio            │ moon-spacex         │ 1040034260092  │ [Not specified]      │
+├──────────────────────┼─────────────────────┼────────────────┼──────────────────────┤
+│ Swift                │ swift-400b0         │ 205981391089   │ [Not specified]      │
+├──────────────────────┼─────────────────────┼────────────────┼──────────────────────┤
+│ Swift Chat           │ swift-chat-fc3cd    │ 943936717990   │ [Not specified]      │
+└──────────────────────┴─────────────────────┴────────────────┴──────────────────────┘
+[info] 
+[info] 4 project(s) total.
+[debug] [2026-03-18T10:37:56.817Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudresourcemanager.googleapis.com 200
+[debug] [2026-03-18T10:37:56.817Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudresourcemanager.googleapis.com [omitted]
+[debug] [2026-03-18T10:37:56.967Z] Checked if tokens are valid: true, expires at: 1773832802132
+[debug] [2026-03-18T10:37:56.967Z] Checked if tokens are valid: true, expires at: 1773832802132
+[debug] [2026-03-18T10:37:56.967Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0 [none]
+[debug] [2026-03-18T10:37:58.379Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0 200
+[debug] [2026-03-18T10:37:58.380Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0 {"projectNumber":"205981391089","projectId":"swift-400b0","lifecycleState":"ACTIVE","name":"Swift","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2025-03-05T23:10:15.516418Z"}
+[info] Now using project swift-400b0
+[debug] [2026-03-18T10:39:23.334Z] ----------------------------------------------------------------------
+[debug] [2026-03-18T10:39:23.339Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Moon Ahmed\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js projects:list --json
+[debug] [2026-03-18T10:39:23.340Z] CLI Version:   15.10.1
+[debug] [2026-03-18T10:39:23.340Z] Platform:      win32
+[debug] [2026-03-18T10:39:23.340Z] Node Version:  v24.14.0
+[debug] [2026-03-18T10:39:23.340Z] Time:          Wed Mar 18 2026 16:39:23 GMT+0600 (Bangladesh Standard Time)
+[debug] [2026-03-18T10:39:23.340Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-18T10:39:23.677Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[debug] [2026-03-18T10:39:23.682Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T10:39:23.683Z] > authorizing via signed-in user (zerosmoon.ff@gmail.com)
+[debug] [2026-03-18T10:39:23.689Z] Checked if tokens are valid: true, expires at: 1773832802132
+[debug] [2026-03-18T10:39:23.690Z] Checked if tokens are valid: true, expires at: 1773832802132
+[debug] [2026-03-18T10:39:23.692Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=1000
+[debug] [2026-03-18T10:39:24.536Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2026-03-18T10:39:24.537Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] ┌──────────────────────┬───────────────────────┬────────────────┬──────────────────────┐
+│ Project Display Name │ Project ID            │ Project Number │ Resource Location ID │
+├──────────────────────┼───────────────────────┼────────────────┼──────────────────────┤
+│ moon-protfolio       │ moon-protfolio-2207   │ 981735535382   │ [Not specified]      │
+├──────────────────────┼───────────────────────┼────────────────┼──────────────────────┤
+│ portfolio            │ moon-spacex           │ 1040034260092  │ [Not specified]      │
+├──────────────────────┼───────────────────────┼────────────────┼──────────────────────┤
+│ Swift                │ swift-400b0 (current) │ 205981391089   │ [Not specified]      │
+├──────────────────────┼───────────────────────┼────────────────┼──────────────────────┤
+│ Swift Chat           │ swift-chat-fc3cd      │ 943936717990   │ [Not specified]      │
+└──────────────────────┴───────────────────────┴────────────────┴──────────────────────┘
+[info] 
+[info] 4 project(s) total.
+[debug] [2026-03-18T10:43:36.883Z] ----------------------------------------------------------------------
+[debug] [2026-03-18T10:43:36.888Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Moon Ahmed\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js use
+[debug] [2026-03-18T10:43:36.888Z] CLI Version:   15.10.1
+[debug] [2026-03-18T10:43:36.889Z] Platform:      win32
+[debug] [2026-03-18T10:43:36.889Z] Node Version:  v24.14.0
+[debug] [2026-03-18T10:43:36.889Z] Time:          Wed Mar 18 2026 16:43:36 GMT+0600 (Bangladesh Standard Time)
+[debug] [2026-03-18T10:43:36.889Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-18T10:43:37.354Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[debug] [2026-03-18T10:43:37.361Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T10:43:37.362Z] > authorizing via signed-in user (zerosmoon.ff@gmail.com)
+[info] swift-400b0
+[debug] [2026-03-18T11:13:07.949Z] ----------------------------------------------------------------------
+[debug] [2026-03-18T11:13:07.952Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Moon Ahmed\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js use
+[debug] [2026-03-18T11:13:07.952Z] CLI Version:   15.10.1
+[debug] [2026-03-18T11:13:07.952Z] Platform:      win32
+[debug] [2026-03-18T11:13:07.952Z] Node Version:  v24.14.0
+[debug] [2026-03-18T11:13:07.952Z] Time:          Wed Mar 18 2026 17:13:07 GMT+0600 (Bangladesh Standard Time)
+[debug] [2026-03-18T11:13:07.953Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-18T11:13:08.171Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[debug] [2026-03-18T11:13:08.211Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T11:13:08.211Z] > authorizing via signed-in user (zerosmoon.ff@gmail.com)
+[info] swift-400b0
+[debug] [2026-03-18T11:13:25.651Z] ----------------------------------------------------------------------
+[debug] [2026-03-18T11:13:25.654Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Moon Ahmed\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js projects:list --json
+[debug] [2026-03-18T11:13:25.654Z] CLI Version:   15.10.1
+[debug] [2026-03-18T11:13:25.654Z] Platform:      win32
+[debug] [2026-03-18T11:13:25.654Z] Node Version:  v24.14.0
+[debug] [2026-03-18T11:13:25.654Z] Time:          Wed Mar 18 2026 17:13:25 GMT+0600 (Bangladesh Standard Time)
+[debug] [2026-03-18T11:13:25.654Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-18T11:13:25.871Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[debug] [2026-03-18T11:13:25.876Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T11:13:25.876Z] > authorizing via signed-in user (zerosmoon.ff@gmail.com)
+[debug] [2026-03-18T11:13:25.880Z] Checked if tokens are valid: false, expires at: 1773832802132
+[debug] [2026-03-18T11:13:25.881Z] Checked if tokens are valid: false, expires at: 1773832802132
+[debug] [2026-03-18T11:13:25.881Z] > refreshing access token with scopes: []
+[debug] [2026-03-18T11:13:25.884Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-03-18T11:13:25.884Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-03-18T11:13:26.124Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2026-03-18T11:13:26.124Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-03-18T11:13:26.132Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=1000
+[debug] [2026-03-18T11:13:26.918Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2026-03-18T11:13:26.918Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] ┌──────────────────────┬───────────────────────┬────────────────┬──────────────────────┐
+│ Project Display Name │ Project ID            │ Project Number │ Resource Location ID │
+├──────────────────────┼───────────────────────┼────────────────┼──────────────────────┤
+│ moon-protfolio       │ moon-protfolio-2207   │ 981735535382   │ [Not specified]      │
+├──────────────────────┼───────────────────────┼────────────────┼──────────────────────┤
+│ portfolio            │ moon-spacex           │ 1040034260092  │ [Not specified]      │
+├──────────────────────┼───────────────────────┼────────────────┼──────────────────────┤
+│ Swift                │ swift-400b0 (current) │ 205981391089   │ [Not specified]      │
+├──────────────────────┼───────────────────────┼────────────────┼──────────────────────┤
+│ Swift Chat           │ swift-chat-fc3cd      │ 943936717990   │ [Not specified]      │
+└──────────────────────┴───────────────────────┴────────────────┴──────────────────────┘
+[info] 
+[info] 4 project(s) total.
+[debug] [2026-03-18T11:13:28.133Z] ----------------------------------------------------------------------
+[debug] [2026-03-18T11:13:28.136Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Moon Ahmed\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js apps:list android --json --project=swift-400b0
+[debug] [2026-03-18T11:13:28.137Z] CLI Version:   15.10.1
+[debug] [2026-03-18T11:13:28.137Z] Platform:      win32
+[debug] [2026-03-18T11:13:28.137Z] Node Version:  v24.14.0
+[debug] [2026-03-18T11:13:28.137Z] Time:          Wed Mar 18 2026 17:13:28 GMT+0600 (Bangladesh Standard Time)
+[debug] [2026-03-18T11:13:28.137Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-18T11:13:28.493Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[debug] [2026-03-18T11:13:28.496Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T11:13:28.497Z] > authorizing via signed-in user (zerosmoon.ff@gmail.com)
+[debug] [2026-03-18T11:13:28.500Z] Checked if tokens are valid: true, expires at: 1773836005124
+[debug] [2026-03-18T11:13:28.500Z] Checked if tokens are valid: true, expires at: 1773836005124
+[debug] [2026-03-18T11:13:28.502Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/swift-400b0/androidApps pageSize=100
+[debug] [2026-03-18T11:13:29.112Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/swift-400b0/androidApps 200
+[debug] [2026-03-18T11:13:29.112Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/swift-400b0/androidApps {"apps":[{"name":"projects/swift-400b0/androidApps/1:205981391089:android:279a8b52dcf598871ab150","appId":"1:205981391089:android:279a8b52dcf598871ab150","displayName":"swift_chat (android)","projectId":"swift-400b0","packageName":"com.example.swift_chat","apiKeyId":"b5cd6afc-af35-4c1a-83e6-c849571649f9","state":"ACTIVE","sha1Hashes":["18113f3c8bb062ab6cdb45a89585e40387c5b620"],"expireTime":"1970-01-01T00:00:00Z","etag":"1_195d45a7-a884-4f9d-9d5d-df6a4a426800"}]}
+[info] ┌──────────────────────┬───────────────────────────────────────────────┬──────────┐
+│ App Display Name     │ App ID                                        │ Platform │
+├──────────────────────┼───────────────────────────────────────────────┼──────────┤
+│ swift_chat (android) │ 1:205981391089:android:279a8b52dcf598871ab150 │ ANDROID  │
+└──────────────────────┴───────────────────────────────────────────────┴──────────┘
+[info] 
+[info] 1 app(s) total.
+[debug] [2026-03-18T11:13:30.354Z] ----------------------------------------------------------------------
+[debug] [2026-03-18T11:13:30.357Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Moon Ahmed\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js apps:sdkconfig android 1:205981391089:android:279a8b52dcf598871ab150 --json
+[debug] [2026-03-18T11:13:30.357Z] CLI Version:   15.10.1
+[debug] [2026-03-18T11:13:30.357Z] Platform:      win32
+[debug] [2026-03-18T11:13:30.357Z] Node Version:  v24.14.0
+[debug] [2026-03-18T11:13:30.357Z] Time:          Wed Mar 18 2026 17:13:30 GMT+0600 (Bangladesh Standard Time)
+[debug] [2026-03-18T11:13:30.358Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-18T11:13:30.575Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[debug] [2026-03-18T11:13:30.578Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T11:13:30.578Z] > authorizing via signed-in user (zerosmoon.ff@gmail.com)
+[debug] [2026-03-18T11:13:30.581Z] Checked if tokens are valid: true, expires at: 1773836005124
+[debug] [2026-03-18T11:13:30.581Z] Checked if tokens are valid: true, expires at: 1773836005124
+[debug] [2026-03-18T11:13:30.582Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/androidApps/1:205981391089:android:279a8b52dcf598871ab150/config [none]
+[debug] [2026-03-18T11:13:32.123Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/androidApps/1:205981391089:android:279a8b52dcf598871ab150/config 200
+[debug] [2026-03-18T11:13:32.123Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/androidApps/1:205981391089:android:279a8b52dcf598871ab150/config {"configFilename":"google-services.json","configFileContents":"ewogICJwcm9qZWN0X2luZm8iOiB7CiAgICAicHJvamVjdF9udW1iZXIiOiAiMjA1OTgxMzkxMDg5IiwKICAgICJwcm9qZWN0X2lkIjogInN3aWZ0LTQwMGIwIiwKICAgICJzdG9yYWdlX2J1Y2tldCI6ICJzd2lmdC00MDBiMC5maXJlYmFzZXN0b3JhZ2UuYXBwIgogIH0sCiAgImNsaWVudCI6IFsKICAgIHsKICAgICAgImNsaWVudF9pbmZvIjogewogICAgICAgICJtb2JpbGVzZGtfYXBwX2lkIjogIjE6MjA1OTgxMzkxMDg5OmFuZHJvaWQ6Mjc5YThiNTJkY2Y1OTg4NzFhYjE1MCIsCiAgICAgICAgImFuZHJvaWRfY2xpZW50X2luZm8iOiB7CiAgICAgICAgICAicGFja2FnZV9uYW1lIjogImNvbS5leGFtcGxlLnN3aWZ0X2NoYXQiCiAgICAgICAgfQogICAgICB9LAogICAgICAib2F1dGhfY2xpZW50IjogWwogICAgICAgIHsKICAgICAgICAgICJjbGllbnRfaWQiOiAiMjA1OTgxMzkxMDg5LWYxZzkzbzh1ODN0MG0ycXZ0Y2lyN25zZG1tdWEzbzlwLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwKICAgICAgICAgICJjbGllbnRfdHlwZSI6IDEsCiAgICAgICAgICAiYW5kcm9pZF9pbmZvIjogewogICAgICAgICAgICAicGFja2FnZV9uYW1lIjogImNvbS5leGFtcGxlLnN3aWZ0X2NoYXQiLAogICAgICAgICAgICAiY2VydGlmaWNhdGVfaGFzaCI6ICIxODExM2YzYzhiYjA2MmFiNmNkYjQ1YTg5NTg1ZTQwMzg3YzViNjIwIgogICAgICAgICAgfQogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgImNsaWVudF9pZCI6ICIyMDU5ODEzOTEwODktMXY5dHE2YzJybjh0M3RlN25kYWN1aGI5b3IzZWg1ZGkuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLAogICAgICAgICAgImNsaWVudF90eXBlIjogMwogICAgICAgIH0KICAgICAgXSwKICAgICAgImFwaV9rZXkiOiBbCiAgICAgICAgewogICAgICAgICAgImN1cnJlbnRfa2V5IjogIkFJemFTeUJsRDZzUmdON2ZmUnBQRmFkSUxzUEkwUlVpRW4yb1NGQSIKICAgICAgICB9CiAgICAgIF0sCiAgICAgICJzZXJ2aWNlcyI6IHsKICAgICAgICAiYXBwaW52aXRlX3NlcnZpY2UiOiB7CiAgICAgICAgICAib3RoZXJfcGxhdGZvcm1fb2F1dGhfY2xpZW50IjogWwogICAgICAgICAgICB7CiAgICAgICAgICAgICAgImNsaWVudF9pZCI6ICIyMDU5ODEzOTEwODktMXY5dHE2YzJybjh0M3RlN25kYWN1aGI5b3IzZWg1ZGkuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLAogICAgICAgICAgICAgICJjbGllbnRfdHlwZSI6IDMKICAgICAgICAgICAgfQogICAgICAgICAgXQogICAgICAgIH0KICAgICAgfQogICAgfQogIF0sCiAgImNvbmZpZ3VyYXRpb25fdmVyc2lvbiI6ICIxIgp9"}
+[info] {
+  "project_info": {
+    "project_number": "205981391089",
+    "project_id": "swift-400b0",
+    "storage_bucket": "swift-400b0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:205981391089:android:279a8b52dcf598871ab150",
+        "android_client_info": {
+          "package_name": "com.example.swift_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "205981391089-f1g93o8u83t0m2qvtcir7nsdmmua3o9p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.swift_chat",
+            "certificate_hash": "18113f3c8bb062ab6cdb45a89585e40387c5b620"
+          }
+        },
+        {
+          "client_id": "205981391089-1v9tq6c2rn8t3te7ndacuhb9or3eh5di.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlD6sRgN7ffRpPFadILsPI0RUiEn2oSFA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "205981391089-1v9tq6c2rn8t3te7ndacuhb9or3eh5di.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
+[debug] [2026-03-18T11:22:58.283Z] ----------------------------------------------------------------------
+[debug] [2026-03-18T11:22:58.288Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Moon Ahmed\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js apps:android:sha:create 1:205981391089:android:279a8b52dcf598871ab150 51:69:5C:7B:B6:00:95:8C:66:42:DF:54:C5:21:5F:78:7E:97:41:D0:EE:5F:6B:EA:87:A6:D3:F3:51:10:EC:EE --project swift-400b0
+[debug] [2026-03-18T11:22:58.288Z] CLI Version:   15.10.1
+[debug] [2026-03-18T11:22:58.289Z] Platform:      win32
+[debug] [2026-03-18T11:22:58.289Z] Node Version:  v24.14.0
+[debug] [2026-03-18T11:22:58.289Z] Time:          Wed Mar 18 2026 17:22:58 GMT+0600 (Bangladesh Standard Time)
+[debug] [2026-03-18T11:22:58.289Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-18T11:22:58.856Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[debug] [2026-03-18T11:22:58.863Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T11:22:58.863Z] > authorizing via signed-in user (zerosmoon.ff@gmail.com)
+[debug] [2026-03-18T11:22:58.867Z] Checked if tokens are valid: true, expires at: 1773836005124
+[debug] [2026-03-18T11:22:58.868Z] Checked if tokens are valid: true, expires at: 1773836005124
+[debug] [2026-03-18T11:22:58.870Z] >>> [apiv2][query] POST https://firebase.googleapis.com/v1beta1/projects/swift-400b0/androidApps/1:205981391089:android:279a8b52dcf598871ab150/sha [none]
+[debug] [2026-03-18T11:22:58.870Z] >>> [apiv2][body] POST https://firebase.googleapis.com/v1beta1/projects/swift-400b0/androidApps/1:205981391089:android:279a8b52dcf598871ab150/sha {"shaHash":"51:69:5C:7B:B6:00:95:8C:66:42:DF:54:C5:21:5F:78:7E:97:41:D0:EE:5F:6B:EA:87:A6:D3:F3:51:10:EC:EE","certType":"SHA_256"}
+[debug] [2026-03-18T11:22:58.281Z] ----------------------------------------------------------------------
+[debug] [2026-03-18T11:22:58.285Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Moon Ahmed\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js apps:android:sha:create 1:205981391089:android:279a8b52dcf598871ab150 CE:A6:C9:A2:48:D6:A1:45:ED:A2:22:D6:07:40:F4:0C:08:28:4F:F8 --project swift-400b0
+[debug] [2026-03-18T11:22:58.285Z] CLI Version:   15.10.1
+[debug] [2026-03-18T11:22:58.285Z] Platform:      win32
+[debug] [2026-03-18T11:22:58.285Z] Node Version:  v24.14.0
+[debug] [2026-03-18T11:22:58.286Z] Time:          Wed Mar 18 2026 17:22:58 GMT+0600 (Bangladesh Standard Time)
+[debug] [2026-03-18T11:22:58.286Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-18T11:22:58.862Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[debug] [2026-03-18T11:22:58.867Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T11:22:58.868Z] > authorizing via signed-in user (zerosmoon.ff@gmail.com)
+[debug] [2026-03-18T11:22:58.873Z] Checked if tokens are valid: true, expires at: 1773836005124
+[debug] [2026-03-18T11:22:58.873Z] Checked if tokens are valid: true, expires at: 1773836005124
+[debug] [2026-03-18T11:22:58.876Z] >>> [apiv2][query] POST https://firebase.googleapis.com/v1beta1/projects/swift-400b0/androidApps/1:205981391089:android:279a8b52dcf598871ab150/sha [none]
+[debug] [2026-03-18T11:22:58.876Z] >>> [apiv2][body] POST https://firebase.googleapis.com/v1beta1/projects/swift-400b0/androidApps/1:205981391089:android:279a8b52dcf598871ab150/sha {"shaHash":"CE:A6:C9:A2:48:D6:A1:45:ED:A2:22:D6:07:40:F4:0C:08:28:4F:F8","certType":"SHA_1"}
+[debug] [2026-03-18T11:23:00.038Z] <<< [apiv2][status] POST https://firebase.googleapis.com/v1beta1/projects/swift-400b0/androidApps/1:205981391089:android:279a8b52dcf598871ab150/sha 200
+[debug] [2026-03-18T11:23:00.038Z] <<< [apiv2][body] POST https://firebase.googleapis.com/v1beta1/projects/swift-400b0/androidApps/1:205981391089:android:279a8b52dcf598871ab150/sha {"name":"projects/swift-400b0/androidApps/1:205981391089:android:279a8b52dcf598871ab150/sha/09b5450f9d5b089c","shaHash":"51695c7bb600958c6642df54c5215f787e9741d0ee5f6bea87a6d3f35110ecee","certType":"SHA_256"}
+[debug] [2026-03-18T11:23:01.581Z] <<< [apiv2][status] POST https://firebase.googleapis.com/v1beta1/projects/swift-400b0/androidApps/1:205981391089:android:279a8b52dcf598871ab150/sha 200
+[debug] [2026-03-18T11:23:01.581Z] <<< [apiv2][body] POST https://firebase.googleapis.com/v1beta1/projects/swift-400b0/androidApps/1:205981391089:android:279a8b52dcf598871ab150/sha {"name":"projects/swift-400b0/androidApps/1:205981391089:android:279a8b52dcf598871ab150/sha/e82afe42f58e32a0","shaHash":"cea6c9a248d6a145eda222d60740f40c08284ff8","certType":"SHA_1"}
+[debug] [2026-03-18T11:23:14.315Z] ----------------------------------------------------------------------
+[debug] [2026-03-18T11:23:14.318Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Moon Ahmed\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js apps:list android --project swift-400b0
+[debug] [2026-03-18T11:23:14.319Z] CLI Version:   15.10.1
+[debug] [2026-03-18T11:23:14.319Z] Platform:      win32
+[debug] [2026-03-18T11:23:14.319Z] Node Version:  v24.14.0
+[debug] [2026-03-18T11:23:14.319Z] Time:          Wed Mar 18 2026 17:23:14 GMT+0600 (Bangladesh Standard Time)
+[debug] [2026-03-18T11:23:14.319Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-18T11:23:14.680Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[debug] [2026-03-18T11:23:14.686Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T11:23:14.687Z] > authorizing via signed-in user (zerosmoon.ff@gmail.com)
+[debug] [2026-03-18T11:23:14.691Z] Checked if tokens are valid: true, expires at: 1773836005124
+[debug] [2026-03-18T11:23:14.691Z] Checked if tokens are valid: true, expires at: 1773836005124
+[debug] [2026-03-18T11:23:14.693Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/swift-400b0/androidApps pageSize=100
+[debug] [2026-03-18T11:23:15.336Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/swift-400b0/androidApps 200
+[debug] [2026-03-18T11:23:15.336Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/swift-400b0/androidApps {"apps":[{"name":"projects/swift-400b0/androidApps/1:205981391089:android:279a8b52dcf598871ab150","appId":"1:205981391089:android:279a8b52dcf598871ab150","displayName":"swift_chat (android)","projectId":"swift-400b0","packageName":"com.example.swift_chat","apiKeyId":"b5cd6afc-af35-4c1a-83e6-c849571649f9","state":"ACTIVE","sha1Hashes":["18113f3c8bb062ab6cdb45a89585e40387c5b620","cea6c9a248d6a145eda222d60740f40c08284ff8"],"sha256Hashes":["51695c7bb600958c6642df54c5215f787e9741d0ee5f6bea87a6d3f35110ecee"],"expireTime":"1970-01-01T00:00:00Z","etag":"1_a16595eb-d251-43a9-b42f-3f569e7a0a1a"}]}
+[info] ┌──────────────────────┬───────────────────────────────────────────────┬──────────┐
+│ App Display Name     │ App ID                                        │ Platform │
+├──────────────────────┼───────────────────────────────────────────────┼──────────┤
+│ swift_chat (android) │ 1:205981391089:android:279a8b52dcf598871ab150 │ ANDROID  │
+└──────────────────────┴───────────────────────────────────────────────┴──────────┘
+[info] 
+[info] 1 app(s) total.
+[debug] [2026-03-18T11:23:16.336Z] ----------------------------------------------------------------------
+[debug] [2026-03-18T11:23:16.342Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Moon Ahmed\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js projects:list --json
+[debug] [2026-03-18T11:23:16.343Z] CLI Version:   15.10.1
+[debug] [2026-03-18T11:23:16.343Z] Platform:      win32
+[debug] [2026-03-18T11:23:16.343Z] Node Version:  v24.14.0
+[debug] [2026-03-18T11:23:16.344Z] Time:          Wed Mar 18 2026 17:23:16 GMT+0600 (Bangladesh Standard Time)
+[debug] [2026-03-18T11:23:16.344Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-18T11:23:16.715Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[debug] [2026-03-18T11:23:16.720Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T11:23:16.720Z] > authorizing via signed-in user (zerosmoon.ff@gmail.com)
+[debug] [2026-03-18T11:23:16.727Z] Checked if tokens are valid: true, expires at: 1773836005124
+[debug] [2026-03-18T11:23:16.727Z] Checked if tokens are valid: true, expires at: 1773836005124
+[debug] [2026-03-18T11:23:16.730Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=1000
+[debug] [2026-03-18T11:23:17.541Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2026-03-18T11:23:17.541Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] ┌──────────────────────┬───────────────────────┬────────────────┬──────────────────────┐
+│ Project Display Name │ Project ID            │ Project Number │ Resource Location ID │
+├──────────────────────┼───────────────────────┼────────────────┼──────────────────────┤
+│ moon-protfolio       │ moon-protfolio-2207   │ 981735535382   │ [Not specified]      │
+├──────────────────────┼───────────────────────┼────────────────┼──────────────────────┤
+│ portfolio            │ moon-spacex           │ 1040034260092  │ [Not specified]      │
+├──────────────────────┼───────────────────────┼────────────────┼──────────────────────┤
+│ Swift                │ swift-400b0 (current) │ 205981391089   │ [Not specified]      │
+├──────────────────────┼───────────────────────┼────────────────┼──────────────────────┤
+│ Swift Chat           │ swift-chat-fc3cd      │ 943936717990   │ [Not specified]      │
+└──────────────────────┴───────────────────────┴────────────────┴──────────────────────┘
+[info] 
+[info] 4 project(s) total.
+[debug] [2026-03-18T11:23:21.906Z] ----------------------------------------------------------------------
+[debug] [2026-03-18T11:23:21.910Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Moon Ahmed\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js apps:list android --json --project=swift-400b0
+[debug] [2026-03-18T11:23:21.911Z] CLI Version:   15.10.1
+[debug] [2026-03-18T11:23:21.911Z] Platform:      win32
+[debug] [2026-03-18T11:23:21.911Z] Node Version:  v24.14.0
+[debug] [2026-03-18T11:23:21.911Z] Time:          Wed Mar 18 2026 17:23:21 GMT+0600 (Bangladesh Standard Time)
+[debug] [2026-03-18T11:23:21.911Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-18T11:23:22.152Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[debug] [2026-03-18T11:23:22.156Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T11:23:22.157Z] > authorizing via signed-in user (zerosmoon.ff@gmail.com)
+[debug] [2026-03-18T11:23:22.161Z] Checked if tokens are valid: true, expires at: 1773836005124
+[debug] [2026-03-18T11:23:22.161Z] Checked if tokens are valid: true, expires at: 1773836005124
+[debug] [2026-03-18T11:23:22.162Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/swift-400b0/androidApps pageSize=100
+[debug] [2026-03-18T11:23:22.821Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/swift-400b0/androidApps 200
+[debug] [2026-03-18T11:23:22.821Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/swift-400b0/androidApps {"apps":[{"name":"projects/swift-400b0/androidApps/1:205981391089:android:279a8b52dcf598871ab150","appId":"1:205981391089:android:279a8b52dcf598871ab150","displayName":"swift_chat (android)","projectId":"swift-400b0","packageName":"com.example.swift_chat","apiKeyId":"b5cd6afc-af35-4c1a-83e6-c849571649f9","state":"ACTIVE","sha1Hashes":["18113f3c8bb062ab6cdb45a89585e40387c5b620","cea6c9a248d6a145eda222d60740f40c08284ff8"],"sha256Hashes":["51695c7bb600958c6642df54c5215f787e9741d0ee5f6bea87a6d3f35110ecee"],"expireTime":"1970-01-01T00:00:00Z","etag":"1_a16595eb-d251-43a9-b42f-3f569e7a0a1a"}]}
+[info] ┌──────────────────────┬───────────────────────────────────────────────┬──────────┐
+│ App Display Name     │ App ID                                        │ Platform │
+├──────────────────────┼───────────────────────────────────────────────┼──────────┤
+│ swift_chat (android) │ 1:205981391089:android:279a8b52dcf598871ab150 │ ANDROID  │
+└──────────────────────┴───────────────────────────────────────────────┴──────────┘
+[info] 
+[info] 1 app(s) total.
+[debug] [2026-03-18T11:23:24.156Z] ----------------------------------------------------------------------
+[debug] [2026-03-18T11:23:24.160Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Moon Ahmed\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js apps:sdkconfig android 1:205981391089:android:279a8b52dcf598871ab150 --json
+[debug] [2026-03-18T11:23:24.160Z] CLI Version:   15.10.1
+[debug] [2026-03-18T11:23:24.161Z] Platform:      win32
+[debug] [2026-03-18T11:23:24.161Z] Node Version:  v24.14.0
+[debug] [2026-03-18T11:23:24.161Z] Time:          Wed Mar 18 2026 17:23:24 GMT+0600 (Bangladesh Standard Time)
+[debug] [2026-03-18T11:23:24.161Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-18T11:23:24.394Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[debug] [2026-03-18T11:23:24.398Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T11:23:24.398Z] > authorizing via signed-in user (zerosmoon.ff@gmail.com)
+[debug] [2026-03-18T11:23:24.401Z] Checked if tokens are valid: true, expires at: 1773836005124
+[debug] [2026-03-18T11:23:24.402Z] Checked if tokens are valid: true, expires at: 1773836005124
+[debug] [2026-03-18T11:23:24.403Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/androidApps/1:205981391089:android:279a8b52dcf598871ab150/config [none]
+[debug] [2026-03-18T11:23:25.973Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/androidApps/1:205981391089:android:279a8b52dcf598871ab150/config 200
+[debug] [2026-03-18T11:23:25.973Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/androidApps/1:205981391089:android:279a8b52dcf598871ab150/config {"configFilename":"google-services.json","configFileContents":"ewogICJwcm9qZWN0X2luZm8iOiB7CiAgICAicHJvamVjdF9udW1iZXIiOiAiMjA1OTgxMzkxMDg5IiwKICAgICJwcm9qZWN0X2lkIjogInN3aWZ0LTQwMGIwIiwKICAgICJzdG9yYWdlX2J1Y2tldCI6ICJzd2lmdC00MDBiMC5maXJlYmFzZXN0b3JhZ2UuYXBwIgogIH0sCiAgImNsaWVudCI6IFsKICAgIHsKICAgICAgImNsaWVudF9pbmZvIjogewogICAgICAgICJtb2JpbGVzZGtfYXBwX2lkIjogIjE6MjA1OTgxMzkxMDg5OmFuZHJvaWQ6Mjc5YThiNTJkY2Y1OTg4NzFhYjE1MCIsCiAgICAgICAgImFuZHJvaWRfY2xpZW50X2luZm8iOiB7CiAgICAgICAgICAicGFja2FnZV9uYW1lIjogImNvbS5leGFtcGxlLnN3aWZ0X2NoYXQiCiAgICAgICAgfQogICAgICB9LAogICAgICAib2F1dGhfY2xpZW50IjogWwogICAgICAgIHsKICAgICAgICAgICJjbGllbnRfaWQiOiAiMjA1OTgxMzkxMDg5LWYxZzkzbzh1ODN0MG0ycXZ0Y2lyN25zZG1tdWEzbzlwLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwKICAgICAgICAgICJjbGllbnRfdHlwZSI6IDEsCiAgICAgICAgICAiYW5kcm9pZF9pbmZvIjogewogICAgICAgICAgICAicGFja2FnZV9uYW1lIjogImNvbS5leGFtcGxlLnN3aWZ0X2NoYXQiLAogICAgICAgICAgICAiY2VydGlmaWNhdGVfaGFzaCI6ICIxODExM2YzYzhiYjA2MmFiNmNkYjQ1YTg5NTg1ZTQwMzg3YzViNjIwIgogICAgICAgICAgfQogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgImNsaWVudF9pZCI6ICIyMDU5ODEzOTEwODktbmY4ZWZhMzR2Nm9naGpzN3ZycmExZ3QxdW91NDZnc2guYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLAogICAgICAgICAgImNsaWVudF90eXBlIjogMSwKICAgICAgICAgICJhbmRyb2lkX2luZm8iOiB7CiAgICAgICAgICAgICJwYWNrYWdlX25hbWUiOiAiY29tLmV4YW1wbGUuc3dpZnRfY2hhdCIsCiAgICAgICAgICAgICJjZXJ0aWZpY2F0ZV9oYXNoIjogImNlYTZjOWEyNDhkNmExNDVlZGEyMjJkNjA3NDBmNDBjMDgyODRmZjgiCiAgICAgICAgICB9CiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAiY2xpZW50X2lkIjogIjIwNTk4MTM5MTA4OS0xdjl0cTZjMnJuOHQzdGU3bmRhY3VoYjlvcjNlaDVkaS5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsCiAgICAgICAgICAiY2xpZW50X3R5cGUiOiAzCiAgICAgICAgfQogICAgICBdLAogICAgICAiYXBpX2tleSI6IFsKICAgICAgICB7CiAgICAgICAgICAiY3VycmVudF9rZXkiOiAiQUl6YVN5QmxENnNSZ043ZmZScFBGYWRJTHNQSTBSVWlFbjJvU0ZBIgogICAgICAgIH0KICAgICAgXSwKICAgICAgInNlcnZpY2VzIjogewogICAgICAgICJhcHBpbnZpdGVfc2VydmljZSI6IHsKICAgICAgICAgICJvdGhlcl9wbGF0Zm9ybV9vYXV0aF9jbGllbnQiOiBbCiAgICAgICAgICAgIHsKICAgICAgICAgICAgICAiY2xpZW50X2lkIjogIjIwNTk4MTM5MTA4OS0xdjl0cTZjMnJuOHQzdGU3bmRhY3VoYjlvcjNlaDVkaS5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsCiAgICAgICAgICAgICAgImNsaWVudF90eXBlIjogMwogICAgICAgICAgICB9CiAgICAgICAgICBdCiAgICAgICAgfQogICAgICB9CiAgICB9CiAgXSwKICAiY29uZmlndXJhdGlvbl92ZXJzaW9uIjogIjEiCn0="}
+[info] {
+  "project_info": {
+    "project_number": "205981391089",
+    "project_id": "swift-400b0",
+    "storage_bucket": "swift-400b0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:205981391089:android:279a8b52dcf598871ab150",
+        "android_client_info": {
+          "package_name": "com.example.swift_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "205981391089-f1g93o8u83t0m2qvtcir7nsdmmua3o9p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.swift_chat",
+            "certificate_hash": "18113f3c8bb062ab6cdb45a89585e40387c5b620"
+          }
+        },
+        {
+          "client_id": "205981391089-nf8efa34v6oghjs7vrra1gt1uou46gsh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.swift_chat",
+            "certificate_hash": "cea6c9a248d6a145eda222d60740f40c08284ff8"
+          }
+        },
+        {
+          "client_id": "205981391089-1v9tq6c2rn8t3te7ndacuhb9or3eh5di.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlD6sRgN7ffRpPFadILsPI0RUiEn2oSFA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "205981391089-1v9tq6c2rn8t3te7ndacuhb9or3eh5di.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
+[debug] [2026-03-18T12:18:53.964Z] ----------------------------------------------------------------------
+[debug] [2026-03-18T12:18:53.967Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Moon Ahmed\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js functions:config:get
+[debug] [2026-03-18T12:18:53.968Z] CLI Version:   15.10.1
+[debug] [2026-03-18T12:18:53.968Z] Platform:      win32
+[debug] [2026-03-18T12:18:53.968Z] Node Version:  v24.14.0
+[debug] [2026-03-18T12:18:53.968Z] Time:          Wed Mar 18 2026 18:18:53 GMT+0600 (Bangladesh Standard Time)
+[debug] [2026-03-18T12:18:53.969Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-18T12:18:54.234Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[debug] [2026-03-18T12:18:54.538Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T12:18:54.539Z] > authorizing via signed-in user (zerosmoon.ff@gmail.com)
+[debug] [2026-03-18T12:18:54.539Z] [iam] checking project swift-400b0 for permissions ["firebase.projects.get","runtimeconfig.configs.get","runtimeconfig.configs.list","runtimeconfig.variables.get","runtimeconfig.variables.list"]
+[debug] [2026-03-18T12:18:54.541Z] Checked if tokens are valid: false, expires at: 1773836005124
+[debug] [2026-03-18T12:18:54.541Z] Checked if tokens are valid: false, expires at: 1773836005124
+[debug] [2026-03-18T12:18:54.542Z] > refreshing access token with scopes: []
+[debug] [2026-03-18T12:18:54.546Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-03-18T12:18:54.546Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-03-18T12:18:54.806Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2026-03-18T12:18:54.807Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-03-18T12:18:54.817Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0:testIamPermissions [none]
+[debug] [2026-03-18T12:18:54.817Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0:testIamPermissions  x-goog-user-project=swift-400b0
+[debug] [2026-03-18T12:18:54.817Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0:testIamPermissions {"permissions":["firebase.projects.get","runtimeconfig.configs.get","runtimeconfig.configs.list","runtimeconfig.variables.get","runtimeconfig.variables.list"]}
+[debug] [2026-03-18T12:18:56.215Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0:testIamPermissions 200
+[debug] [2026-03-18T12:18:56.215Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0:testIamPermissions {"permissions":["firebase.projects.get","runtimeconfig.configs.get","runtimeconfig.configs.list","runtimeconfig.variables.get","runtimeconfig.variables.list"]}
+[debug] [2026-03-18T12:18:56.216Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:18:56.217Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:18:56.217Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/runtimeconfig.googleapis.com [none]
+[debug] [2026-03-18T12:18:56.217Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/runtimeconfig.googleapis.com  x-goog-user-project=swift-400b0
+[debug] [2026-03-18T12:18:57.899Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/runtimeconfig.googleapis.com 200
+[debug] [2026-03-18T12:18:57.899Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2026-03-18T12:18:57.903Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:18:57.903Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:18:57.903Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/swift-400b0/configs [none]
+[debug] [2026-03-18T12:18:58.566Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/swift-400b0/configs 200
+[debug] [2026-03-18T12:18:58.566Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/swift-400b0/configs {}
+[info] {}
+[debug] [2026-03-18T12:25:00.169Z] ----------------------------------------------------------------------
+[debug] [2026-03-18T12:25:00.174Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Moon Ahmed\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js projects:list
+[debug] [2026-03-18T12:25:00.175Z] CLI Version:   15.10.1
+[debug] [2026-03-18T12:25:00.175Z] Platform:      win32
+[debug] [2026-03-18T12:25:00.176Z] Node Version:  v24.14.0
+[debug] [2026-03-18T12:25:00.176Z] Time:          Wed Mar 18 2026 18:25:00 GMT+0600 (Bangladesh Standard Time)
+[debug] [2026-03-18T12:25:00.176Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-18T12:25:00.551Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[debug] [2026-03-18T12:25:00.558Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T12:25:00.559Z] > authorizing via signed-in user (zerosmoon.ff@gmail.com)
+[debug] [2026-03-18T12:25:00.566Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:25:00.566Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:25:00.569Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=1000
+[debug] [2026-03-18T12:25:00.431Z] ----------------------------------------------------------------------
+[debug] [2026-03-18T12:25:00.434Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Moon Ahmed\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js apps:list android --project swift-400b0
+[debug] [2026-03-18T12:25:00.434Z] CLI Version:   15.10.1
+[debug] [2026-03-18T12:25:00.434Z] Platform:      win32
+[debug] [2026-03-18T12:25:00.435Z] Node Version:  v24.14.0
+[debug] [2026-03-18T12:25:00.435Z] Time:          Wed Mar 18 2026 18:25:00 GMT+0600 (Bangladesh Standard Time)
+[debug] [2026-03-18T12:25:00.435Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-18T12:25:00.862Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[debug] [2026-03-18T12:25:00.869Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T12:25:00.870Z] > authorizing via signed-in user (zerosmoon.ff@gmail.com)
+[debug] [2026-03-18T12:25:00.877Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:25:00.878Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:25:00.882Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/swift-400b0/androidApps pageSize=100
+[debug] [2026-03-18T12:25:01.412Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2026-03-18T12:25:01.412Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] ┌──────────────────────┬───────────────────────┬────────────────┬──────────────────────┐
+│ Project Display Name │ Project ID            │ Project Number │ Resource Location ID │
+├──────────────────────┼───────────────────────┼────────────────┼──────────────────────┤
+│ moon-protfolio       │ moon-protfolio-2207   │ 981735535382   │ [Not specified]      │
+├──────────────────────┼───────────────────────┼────────────────┼──────────────────────┤
+│ portfolio            │ moon-spacex           │ 1040034260092  │ [Not specified]      │
+├──────────────────────┼───────────────────────┼────────────────┼──────────────────────┤
+│ Swift                │ swift-400b0 (current) │ 205981391089   │ [Not specified]      │
+├──────────────────────┼───────────────────────┼────────────────┼──────────────────────┤
+│ Swift Chat           │ swift-chat-fc3cd      │ 943936717990   │ [Not specified]      │
+└──────────────────────┴───────────────────────┴────────────────┴──────────────────────┘
+[info] 
+[info] 4 project(s) total.
+[debug] [2026-03-18T12:25:01.522Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/swift-400b0/androidApps 200
+[debug] [2026-03-18T12:25:01.523Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/swift-400b0/androidApps {"apps":[{"name":"projects/swift-400b0/androidApps/1:205981391089:android:279a8b52dcf598871ab150","appId":"1:205981391089:android:279a8b52dcf598871ab150","displayName":"swift_chat (android)","projectId":"swift-400b0","packageName":"com.example.swift_chat","apiKeyId":"b5cd6afc-af35-4c1a-83e6-c849571649f9","state":"ACTIVE","sha1Hashes":["18113f3c8bb062ab6cdb45a89585e40387c5b620","cea6c9a248d6a145eda222d60740f40c08284ff8"],"sha256Hashes":["51695c7bb600958c6642df54c5215f787e9741d0ee5f6bea87a6d3f35110ecee"],"expireTime":"1970-01-01T00:00:00Z","etag":"1_a16595eb-d251-43a9-b42f-3f569e7a0a1a"}]}
+[info] ┌──────────────────────┬───────────────────────────────────────────────┬──────────┐
+│ App Display Name     │ App ID                                        │ Platform │
+├──────────────────────┼───────────────────────────────────────────────┼──────────┤
+│ swift_chat (android) │ 1:205981391089:android:279a8b52dcf598871ab150 │ ANDROID  │
+└──────────────────────┴───────────────────────────────────────────────┴──────────┘
+[info] 
+[info] 1 app(s) total.
+[debug] [2026-03-18T12:25:00.272Z] ----------------------------------------------------------------------
+[debug] [2026-03-18T12:25:00.276Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Moon Ahmed\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js firestore:databases:list --project swift-400b0
+[debug] [2026-03-18T12:25:00.276Z] CLI Version:   15.10.1
+[debug] [2026-03-18T12:25:00.277Z] Platform:      win32
+[debug] [2026-03-18T12:25:00.277Z] Node Version:  v24.14.0
+[debug] [2026-03-18T12:25:00.277Z] Time:          Wed Mar 18 2026 18:25:00 GMT+0600 (Bangladesh Standard Time)
+[debug] [2026-03-18T12:25:00.277Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-18T12:25:02.948Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[debug] [2026-03-18T12:25:02.953Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T12:25:02.954Z] > authorizing via signed-in user (zerosmoon.ff@gmail.com)
+[debug] [2026-03-18T12:25:02.955Z] [iam] checking project swift-400b0 for permissions ["datastore.databases.list","firebase.projects.get"]
+[debug] [2026-03-18T12:25:02.957Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:25:02.957Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:25:02.959Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0:testIamPermissions [none]
+[debug] [2026-03-18T12:25:02.960Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0:testIamPermissions  x-goog-user-project=swift-400b0
+[debug] [2026-03-18T12:25:02.960Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0:testIamPermissions {"permissions":["datastore.databases.list","firebase.projects.get"]}
+[debug] [2026-03-18T12:25:04.372Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0:testIamPermissions 200
+[debug] [2026-03-18T12:25:04.373Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0:testIamPermissions {"permissions":["datastore.databases.list","firebase.projects.get"]}
+[debug] [2026-03-18T12:25:04.374Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:25:04.374Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:25:04.374Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/swift-400b0/databases [none]
+[debug] [2026-03-18T12:25:05.350Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/swift-400b0/databases 200
+[debug] [2026-03-18T12:25:05.350Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/swift-400b0/databases {"databases":[{"name":"projects/swift-400b0/databases/(default)","uid":"df07dc98-fa98-4120-9ffd-a0bcc2e51fc3","createTime":"2025-05-07T07:53:05.527174Z","updateTime":"2025-05-07T07:53:05.527174Z","locationId":"asia-south2","type":"FIRESTORE_NATIVE","concurrencyMode":"PESSIMISTIC","versionRetentionPeriod":"3600s","earliestVersionTime":"2026-03-18T11:25:05.444162Z","appEngineIntegrationMode":"DISABLED","pointInTimeRecoveryEnablement":"POINT_IN_TIME_RECOVERY_DISABLED","deleteProtectionState":"DELETE_PROTECTION_DISABLED","databaseEdition":"STANDARD","freeTier":true,"realtimeUpdatesMode":"REALTIME_UPDATES_MODE_ENABLED","etag":"INXrwdW4qZMDMIqTpp/y45ID"}]}
+[info] ┌─────────────────────────────────────────────┐
+│ Database Name                               │
+├─────────────────────────────────────────────┤
+│ projects/swift-400b0/databases/(default)    │
+└─────────────────────────────────────────────┘
+[debug] [2026-03-18T12:43:44.713Z] ----------------------------------------------------------------------
+[debug] [2026-03-18T12:43:44.717Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Moon Ahmed\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only functions --project swift-400b0
+[debug] [2026-03-18T12:43:44.718Z] CLI Version:   15.10.1
+[debug] [2026-03-18T12:43:44.718Z] Platform:      win32
+[debug] [2026-03-18T12:43:44.718Z] Node Version:  v24.14.0
+[debug] [2026-03-18T12:43:44.719Z] Time:          Wed Mar 18 2026 18:43:44 GMT+0600 (Bangladesh Standard Time)
+[debug] [2026-03-18T12:43:44.719Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-18T12:43:47.498Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[debug] [2026-03-18T12:43:47.529Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T12:43:47.529Z] > authorizing via signed-in user (zerosmoon.ff@gmail.com)
+[debug] [2026-03-18T12:43:47.529Z] [iam] checking project swift-400b0 for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2026-03-18T12:43:47.531Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:43:47.531Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:43:47.533Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0:testIamPermissions [none]
+[debug] [2026-03-18T12:43:47.533Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0:testIamPermissions  x-goog-user-project=swift-400b0
+[debug] [2026-03-18T12:43:47.533Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2026-03-18T12:43:47.987Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0:testIamPermissions 200
+[debug] [2026-03-18T12:43:47.987Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2026-03-18T12:43:47.988Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:43:47.989Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:43:47.989Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/swift-400b0/serviceAccounts/swift-400b0@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2026-03-18T12:43:47.989Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/swift-400b0/serviceAccounts/swift-400b0@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2026-03-18T12:43:49.657Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/swift-400b0/serviceAccounts/swift-400b0@appspot.gserviceaccount.com:testIamPermissions 404
+[debug] [2026-03-18T12:43:49.657Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/swift-400b0/serviceAccounts/swift-400b0@appspot.gserviceaccount.com:testIamPermissions {"error":{"code":404,"message":"Unknown service account","status":"NOT_FOUND"}}
+[debug] [2026-03-18T12:43:49.658Z] [functions] service account IAM check errored, deploy may fail: Request to https://iam.googleapis.com/v1/projects/swift-400b0/serviceAccounts/swift-400b0@appspot.gserviceaccount.com:testIamPermissions had HTTP Error: 404, Unknown service account {"name":"FirebaseError","children":[],"context":{"body":{"error":{"code":404,"message":"Unknown service account","status":"NOT_FOUND"}},"response":{"statusCode":404}},"exit":1,"message":"Request to https://iam.googleapis.com/v1/projects/swift-400b0/serviceAccounts/swift-400b0@appspot.gserviceaccount.com:testIamPermissions had HTTP Error: 404, Unknown service account","status":404}
+[info] 
+[info] === Deploying to 'swift-400b0'...
+[info] 
+[info] i  deploying functions 
+[debug] [2026-03-18T12:43:49.662Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:43:49.662Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:43:49.662Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0 [none]
+[debug] [2026-03-18T12:43:49.960Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0 200
+[debug] [2026-03-18T12:43:49.960Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0 {"projectNumber":"205981391089","projectId":"swift-400b0","lifecycleState":"ACTIVE","name":"Swift","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2025-03-05T23:10:15.516418Z"}
+[info] i  functions: preparing codebase default for deployment 
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[debug] [2026-03-18T12:43:49.962Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:43:49.962Z] Checked if tokens are valid: true, expires at: 1773839933807
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[debug] [2026-03-18T12:43:49.962Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:43:49.963Z] Checked if tokens are valid: true, expires at: 1773839933807
+[info] i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[debug] [2026-03-18T12:43:49.963Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:43:49.963Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:43:49.963Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudfunctions.googleapis.com [none]
+[debug] [2026-03-18T12:43:49.963Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudfunctions.googleapis.com  x-goog-user-project=swift-400b0
+[debug] [2026-03-18T12:43:49.965Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudbuild.googleapis.com [none]
+[debug] [2026-03-18T12:43:49.965Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudbuild.googleapis.com  x-goog-user-project=swift-400b0
+[debug] [2026-03-18T12:43:49.966Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/artifactregistry.googleapis.com [none]
+[debug] [2026-03-18T12:43:49.966Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/artifactregistry.googleapis.com  x-goog-user-project=swift-400b0
+[debug] [2026-03-18T12:43:51.724Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudbuild.googleapis.com 200
+[debug] [2026-03-18T12:43:51.724Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudbuild.googleapis.com [omitted]
+[warn] !  functions: missing required API cloudbuild.googleapis.com. Enabling now... 
+[debug] [2026-03-18T12:43:51.725Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:43:51.725Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:43:51.725Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudbuild.googleapis.com:enable [none]
+[debug] [2026-03-18T12:43:51.725Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudbuild.googleapis.com:enable  x-goog-user-project=swift-400b0
+[debug] [2026-03-18T12:43:51.726Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudfunctions.googleapis.com 200
+[debug] [2026-03-18T12:43:51.727Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudfunctions.googleapis.com [omitted]
+[warn] !  functions: missing required API cloudfunctions.googleapis.com. Enabling now... 
+[debug] [2026-03-18T12:43:51.727Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:43:51.727Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:43:51.727Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudfunctions.googleapis.com:enable [none]
+[debug] [2026-03-18T12:43:51.727Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudfunctions.googleapis.com:enable  x-goog-user-project=swift-400b0
+[debug] [2026-03-18T12:43:51.733Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/artifactregistry.googleapis.com 200
+[debug] [2026-03-18T12:43:51.733Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/artifactregistry.googleapis.com [omitted]
+[warn] !  artifactregistry: missing required API artifactregistry.googleapis.com. Enabling now... 
+[debug] [2026-03-18T12:43:51.733Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:43:51.733Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:43:51.733Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/artifactregistry.googleapis.com:enable [none]
+[debug] [2026-03-18T12:43:51.733Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/artifactregistry.googleapis.com:enable  x-goog-user-project=swift-400b0
+[debug] [2026-03-18T12:43:53.312Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/artifactregistry.googleapis.com:enable 400
+[debug] [2026-03-18T12:43:53.312Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/artifactregistry.googleapis.com:enable [omitted]
+[debug] [2026-03-18T12:43:53.419Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudbuild.googleapis.com:enable 400
+[debug] [2026-03-18T12:43:53.419Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudbuild.googleapis.com:enable [omitted]
+[debug] [2026-03-18T12:43:53.486Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudfunctions.googleapis.com:enable 200
+[debug] [2026-03-18T12:43:53.486Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudfunctions.googleapis.com:enable [omitted]
+[error] 
+[error] Error: Your project swift-400b0 must be on the Blaze (pay-as-you-go) plan to complete this command. Required API artifactregistry.googleapis.com can't be enabled until the upgrade is complete. To upgrade, visit the following URL:
+
+https://console.firebase.google.com/project/swift-400b0/usage/details
+[debug] [2026-03-18T12:46:13.908Z] ----------------------------------------------------------------------
+[debug] [2026-03-18T12:46:13.913Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Moon Ahmed\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only functions --config firebase.functions.json --project swift-400b0
+[debug] [2026-03-18T12:46:13.913Z] CLI Version:   15.10.1
+[debug] [2026-03-18T12:46:13.914Z] Platform:      win32
+[debug] [2026-03-18T12:46:13.914Z] Node Version:  v24.14.0
+[debug] [2026-03-18T12:46:13.914Z] Time:          Wed Mar 18 2026 18:46:13 GMT+0600 (Bangladesh Standard Time)
+[debug] [2026-03-18T12:46:13.914Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-18T12:46:15.821Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T12:46:15.823Z] > authorizing via signed-in user (zerosmoon.ff@gmail.com)
+[debug] [2026-03-18T12:46:15.823Z] [iam] checking project swift-400b0 for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2026-03-18T12:46:15.824Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:46:15.825Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:46:15.826Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0:testIamPermissions [none]
+[debug] [2026-03-18T12:46:15.826Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0:testIamPermissions  x-goog-user-project=swift-400b0
+[debug] [2026-03-18T12:46:15.826Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2026-03-18T12:46:16.206Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0:testIamPermissions 200
+[debug] [2026-03-18T12:46:16.206Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2026-03-18T12:46:16.207Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:46:16.207Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:46:16.207Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/swift-400b0/serviceAccounts/swift-400b0@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2026-03-18T12:46:16.207Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/swift-400b0/serviceAccounts/swift-400b0@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2026-03-18T12:46:17.778Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/swift-400b0/serviceAccounts/swift-400b0@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2026-03-18T12:46:17.778Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/swift-400b0/serviceAccounts/swift-400b0@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[info] 
+[info] === Deploying to 'swift-400b0'...
+[info] 
+[info] i  deploying functions 
+[debug] [2026-03-18T12:46:17.781Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:46:17.781Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:46:17.781Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0 [none]
+[debug] [2026-03-18T12:46:18.084Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0 200
+[debug] [2026-03-18T12:46:18.084Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/swift-400b0 {"projectNumber":"205981391089","projectId":"swift-400b0","lifecycleState":"ACTIVE","name":"Swift","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2025-03-05T23:10:15.516418Z"}
+[info] i  functions: preparing codebase default for deployment 
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[debug] [2026-03-18T12:46:18.086Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:46:18.086Z] Checked if tokens are valid: true, expires at: 1773839933807
+[info] i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[debug] [2026-03-18T12:46:18.087Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:46:18.087Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:46:18.087Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudbuild.googleapis.com [none]
+[debug] [2026-03-18T12:46:18.087Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudbuild.googleapis.com  x-goog-user-project=swift-400b0
+[debug] [2026-03-18T12:46:18.088Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/artifactregistry.googleapis.com [none]
+[debug] [2026-03-18T12:46:18.088Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/artifactregistry.googleapis.com  x-goog-user-project=swift-400b0
+[debug] [2026-03-18T12:46:19.791Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudbuild.googleapis.com 200
+[debug] [2026-03-18T12:46:19.791Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudbuild.googleapis.com [omitted]
+[warn] !  functions: missing required API cloudbuild.googleapis.com. Enabling now... 
+[debug] [2026-03-18T12:46:19.791Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:46:19.791Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:46:19.792Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudbuild.googleapis.com:enable [none]
+[debug] [2026-03-18T12:46:19.792Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudbuild.googleapis.com:enable  x-goog-user-project=swift-400b0
+[debug] [2026-03-18T12:46:19.795Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/artifactregistry.googleapis.com 200
+[debug] [2026-03-18T12:46:19.796Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/artifactregistry.googleapis.com [omitted]
+[warn] !  artifactregistry: missing required API artifactregistry.googleapis.com. Enabling now... 
+[debug] [2026-03-18T12:46:19.796Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:46:19.796Z] Checked if tokens are valid: true, expires at: 1773839933807
+[debug] [2026-03-18T12:46:19.796Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/artifactregistry.googleapis.com:enable [none]
+[debug] [2026-03-18T12:46:19.796Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/artifactregistry.googleapis.com:enable  x-goog-user-project=swift-400b0
+[debug] [2026-03-18T12:46:21.399Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/artifactregistry.googleapis.com:enable 400
+[debug] [2026-03-18T12:46:21.400Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/artifactregistry.googleapis.com:enable [omitted]
+[debug] [2026-03-18T12:46:21.432Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudbuild.googleapis.com:enable 400
+[debug] [2026-03-18T12:46:21.433Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/swift-400b0/services/cloudbuild.googleapis.com:enable [omitted]
+[error] 
+[error] Error: Your project swift-400b0 must be on the Blaze (pay-as-you-go) plan to complete this command. Required API artifactregistry.googleapis.com can't be enabled until the upgrade is complete. To upgrade, visit the following URL:
+
+https://console.firebase.google.com/project/swift-400b0/usage/details

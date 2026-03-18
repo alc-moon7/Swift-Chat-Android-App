@@ -1,12 +1,14 @@
 import 'dart:async';
+
+import 'package:app_settings/app_settings.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:app_settings/app_settings.dart'; // ✅ Replaced open_app_settings with app_settings
 import 'package:swift_chat/screens/auth/login_screen.dart';
 import 'package:swift_chat/screens/home_screen.dart';
+import 'package:swift_chat/services/notification_service.dart';
 
 class SplashScreen extends StatefulWidget {
   final bool isDarkMode;
@@ -66,7 +68,7 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> _handleNotifications() async {
-    NotificationSettings settings = await _firebaseMessaging.requestPermission(
+    final settings = await _firebaseMessaging.requestPermission(
       alert: true,
       badge: true,
       sound: true,
@@ -78,19 +80,24 @@ class _SplashScreenState extends State<SplashScreen>
       });
     }
 
-    String? token = await _firebaseMessaging.getToken();
-    if (FirebaseAuth.instance.currentUser != null && token != null) {
-      await _storeFCMToken(token);
-    }
-  }
-
-  Future<void> _storeFCMToken(String token) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .update({'fcmToken': token});
+      final userRef = FirebaseFirestore.instance.collection('users').doc(user.uid);
+      final existingData =
+          (await userRef.get()).data() ?? const <String, dynamic>{};
+
+      await userRef.set({
+        'name': existingData['name'] ?? user.displayName ?? 'User',
+        'email': user.email ?? existingData['email'] ?? '',
+        'photoUrl': existingData['photoUrl'] ?? user.photoURL ?? '',
+        'photoBase64': existingData['photoBase64'] ?? '',
+        'phone': existingData['phone'] ?? '',
+        'bio': existingData['bio'] ?? '',
+        'username': existingData['username'] ?? '',
+        'birthday': existingData['birthday'],
+        'uid': user.uid,
+      }, SetOptions(merge: true));
+      await NotificationService.syncTokenForUser(user);
     }
   }
 
@@ -127,8 +134,7 @@ class _SplashScreenState extends State<SplashScreen>
           TextButton(
             onPressed: () {
               Navigator.pop(context);
-              AppSettings
-                  .openAppSettings(); // ✅ Replaced OpenAppSettings with AppSettings
+              AppSettings.openAppSettings();
             },
             child: const Text('Open Settings'),
           ),
