@@ -369,7 +369,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       }
     }
 
-    await showModalBottomSheet<void>(
+    final didSave = await showModalBottomSheet<bool>(
       context: parentContext,
       useRootNavigator: true,
       isScrollControlled: true,
@@ -534,22 +534,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                           FieldValue.serverTimestamp(),
                                     });
 
-                                    if (!mounted) {
+                                    if (!sheetContext.mounted) {
                                       return;
                                     }
 
-                                    final rootNavigator = Navigator.of(
-                                      parentContext,
-                                      rootNavigator: true,
-                                    );
-                                    if (rootNavigator.canPop()) {
-                                      rootNavigator.pop();
+                                    final sheetNavigator =
+                                        Navigator.of(sheetContext);
+                                    if (sheetNavigator.canPop()) {
+                                      sheetNavigator.pop(true);
                                     }
-
-                                    Dialogs.showSnackbar(
-                                      parentContext,
-                                      'Profile updated successfully',
-                                    );
                                   } catch (error) {
                                     if (!mounted) {
                                       return;
@@ -605,6 +598,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     phoneController.dispose();
     bioController.dispose();
     usernameController.dispose();
+
+    if (didSave == true && mounted) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) {
+          return;
+        }
+
+        Dialogs.showSnackbar(context, 'Profile updated successfully');
+      });
+    }
   }
 
   String _normalizeUsername(String username) {

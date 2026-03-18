@@ -6,7 +6,13 @@ class Dialogs {
     String msg, {
     Duration? duration,
   }) {
-    ScaffoldMessenger.of(context).showSnackBar(
+    final messenger = ScaffoldMessenger.maybeOf(context);
+    if (messenger == null) {
+      debugPrint('Snackbar skipped because no ScaffoldMessenger was found: $msg');
+      return;
+    }
+
+    messenger.showSnackBar(
       SnackBar(
         content: Text(msg, style: const TextStyle(color: Colors.white)),
         duration: duration ?? const Duration(seconds: 3),
@@ -18,7 +24,7 @@ class Dialogs {
           label: 'OK',
           textColor: Colors.white,
           onPressed: () {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            messenger.hideCurrentSnackBar();
           },
         ),
       ),
