@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:swift_chat/helper/dialogs.dart';
 import 'package:swift_chat/screens/auth/login_screen.dart';
 import 'package:swift_chat/screens/home_screen.dart';
 import 'package:swift_chat/services/app_update_service.dart';
@@ -129,6 +130,7 @@ class _SplashScreenState extends State<SplashScreen>
     }
 
     if (updateInfo.status != AppUpdateCheckStatus.updateAvailable ||
+        (updateInfo.downloadUrl ?? '').isEmpty ||
         _isUpdateDialogVisible) {
       return true;
     }
@@ -177,17 +179,46 @@ class _SplashScreenState extends State<SplashScreen>
     }
 
     if (didTapDownload == true && releaseUrl.isNotEmpty) {
-      final didOpen = await AppUpdateService.openUpdateUrl(releaseUrl);
-      if (!didOpen && mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Could not open the update link right now.'),
-          ),
-        );
-      }
+      await _downloadUpdateInApp(updateInfo);
     }
 
     return true;
+  }
+
+  Future<void> _downloadUpdateInApp(AppUpdateInfo updateInfo) async {
+    final downloadUrl = updateInfo.downloadUrl ?? '';
+    if (downloadUrl.isEmpty || !mounted) {
+      return;
+    }
+
+    Dialogs.showLoading(
+      context,
+      message: 'Downloading update inside Swift Chat...',
+    );
+
+    try {
+      final result = await AppUpdateService.downloadAndInstallUpdate(
+        url: downloadUrl,
+        fileName: updateInfo.downloadFileName,
+      );
+
+      if (!mounted) {
+        return;
+      }
+
+      Dialogs.hideLoading(context);
+
+      if (result.status != AppUpdateInstallStatus.installerOpened) {
+        Dialogs.showSnackbar(context, result.message);
+      }
+    } catch (_) {
+      if (!mounted) {
+        return;
+      }
+
+      Dialogs.hideLoading(context);
+      Dialogs.showSnackbar(context, 'Could not download the update right now.');
+    }
   }
 
   void _showPermissionDialog() {

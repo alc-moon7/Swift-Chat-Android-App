@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:swift_chat/helper/avatar_provider.dart';
+import 'package:swift_chat/services/push_relay_service.dart';
 
 class ChatScreen extends StatefulWidget {
   final String peerId;
@@ -217,6 +218,12 @@ class _ChatScreenState extends State<ChatScreen> {
       _isTyping = false;
       _messageController.clear();
       _scrollToBottom();
+      unawaited(
+        PushRelayService.sendMessageNotification(
+          chatId: _chatId,
+          messageId: messageRef.id,
+        ),
+      );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: ${e.toString()}')),

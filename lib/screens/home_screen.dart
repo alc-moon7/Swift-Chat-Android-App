@@ -1352,19 +1352,55 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
 
     if (didTapUpdate != true || releaseUrl.isEmpty) {
+      if (didTapUpdate == true && releaseUrl.isEmpty) {
+        Dialogs.showSnackbar(
+          context,
+          'This release does not include an APK file yet.',
+        );
+      }
       return;
     }
 
-    final didOpen = await AppUpdateService.openUpdateUrl(releaseUrl);
-    if (!mounted) {
-      return;
-    }
+    await _downloadUpdateInApp(updateInfo);
+  }
 
-    if (!didOpen) {
+  Future<void> _downloadUpdateInApp(AppUpdateInfo updateInfo) async {
+    final downloadUrl = updateInfo.downloadUrl ?? '';
+    if (downloadUrl.isEmpty) {
       Dialogs.showSnackbar(
         context,
-        'Could not open the GitHub update link right now.',
+        'This release does not include an APK file yet.',
       );
+      return;
+    }
+
+    Dialogs.showLoading(
+      context,
+      message: 'Downloading update inside Swift Chat...',
+    );
+
+    try {
+      final result = await AppUpdateService.downloadAndInstallUpdate(
+        url: downloadUrl,
+        fileName: updateInfo.downloadFileName,
+      );
+
+      if (!mounted) {
+        return;
+      }
+
+      Dialogs.hideLoading(context);
+
+      if (result.status != AppUpdateInstallStatus.installerOpened) {
+        Dialogs.showSnackbar(context, result.message);
+      }
+    } catch (_) {
+      if (!mounted) {
+        return;
+      }
+
+      Dialogs.hideLoading(context);
+      Dialogs.showSnackbar(context, 'Could not download the update right now.');
     }
   }
 

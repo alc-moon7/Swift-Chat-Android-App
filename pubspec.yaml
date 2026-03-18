@@ -1,7 +1,7 @@
 name: swift_chat
 description: A new Flutter project.
 
-version: 2.0.2+3
+version: 2.0.3+4
 
 environment:
   sdk: ">=3.5.4 <4.0.0"
@@ -26,6 +26,7 @@ dependencies:
   flutter_local_notifications: ^19.2.0
   image_picker: ^1.1.2
   http: ^1.4.0
+  path_provider: ^2.1.5
   shared_preferences: ^2.3.3
 
 dev_dependencies:

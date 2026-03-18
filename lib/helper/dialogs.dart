@@ -31,9 +31,13 @@ class Dialogs {
     );
   }
 
-  static void showLoading(BuildContext context) {
+  static void showLoading(
+    BuildContext context, {
+    String? message,
+  }) {
     showDialog(
       context: context,
+      useRootNavigator: true,
       barrierDismissible: false,
       builder: (context) => PopScope(
         canPop: false,
@@ -44,9 +48,25 @@ class Dialogs {
               color: Colors.white,
               borderRadius: BorderRadius.circular(15),
             ),
-            child: const CircularProgressIndicator.adaptive(
-              strokeWidth: 3,
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const CircularProgressIndicator.adaptive(
+                  strokeWidth: 3,
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                ),
+                if ((message ?? '').trim().isNotEmpty) ...[
+                  const SizedBox(height: 14),
+                  Text(
+                    message!.trim(),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ],
             ),
           ),
         ),
@@ -55,8 +75,9 @@ class Dialogs {
   }
 
   static void hideLoading(BuildContext context) {
-    if (Navigator.canPop(context)) {
-      Navigator.pop(context);
+    final navigator = Navigator.of(context, rootNavigator: true);
+    if (navigator.canPop()) {
+      navigator.pop();
     }
   }
 
