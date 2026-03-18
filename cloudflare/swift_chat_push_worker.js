@@ -14,6 +14,14 @@ export default {
     }
 
     const url = new URL(request.url);
+    if (url.pathname === "/") {
+      return jsonResponse({
+        ok: true,
+        service: "swift-chat-push",
+        route: "/send-message-notification",
+      });
+    }
+
     if (url.pathname !== "/send-message-notification") {
       return jsonResponse({error: "Not found"}, 404);
     }
@@ -290,7 +298,7 @@ async function sendFcmMessage({
             notification: {
               channelId: "swift_chat_channel",
               clickAction: "FLUTTER_NOTIFICATION_CLICK",
-              priority: "PRIORITY_MAX",
+              notificationPriority: "PRIORITY_MAX",
               defaultSound: true,
               visibility: "PUBLIC",
               tag: chatId,

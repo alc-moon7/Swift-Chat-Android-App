@@ -61,6 +61,11 @@ class NotificationService {
     await _requestPermissions();
     await _createNotificationChannel();
 
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      await syncTokenForUser(currentUser);
+    }
+
     FirebaseMessaging.onMessage.listen((message) async {
       await _showForegroundNotification(message);
     });
