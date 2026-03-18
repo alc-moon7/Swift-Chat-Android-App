@@ -1,13 +1,18 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:swift_chat/services/notification_service.dart';
 import 'package:swift_chat/services/presence_service.dart';
 
 class AuthService {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
-  static final GoogleSignIn _googleSignIn = GoogleSignIn();
+  static const String _googleServerClientId =
+      '205981391089-1v9tq6c2rn8t3te7ndacuhb9or3eh5di.apps.googleusercontent.com';
+  static final GoogleSignIn _googleSignIn = GoogleSignIn(
+    serverClientId: _googleServerClientId,
+  );
 
   static Future<bool> checkInternetConnection() async {
     try {
@@ -30,15 +35,45 @@ class AuthService {
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
 
+      if (googleAuth.idToken == null || googleAuth.idToken!.isEmpty) {
+        throw AuthException(
+          'Google sign-in could not get a valid ID token. Please try again.',
+        );
+      }
+
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
       return await _auth.signInWithCredential(credential);
+    } on PlatformException catch (e) {
+      throw AuthException(_mapGoogleSignInError(e));
     } on FirebaseAuthException catch (e) {
       throw AuthException('Authentication failed: ${e.message}');
     }
+  }
+
+  static String _mapGoogleSignInError(PlatformException error) {
+    final details = [
+      error.code,
+      if ((error.message ?? '').isNotEmpty) error.message!,
+    ].join(' ').toLowerCase();
+
+    if (details.contains('network')) {
+      return 'Network problem detected. Please check your internet and try again.';
+    }
+
+    if (details.contains('canceled') || details.contains('cancelled')) {
+      return 'Sign-in process canceled.';
+    }
+
+    if (details.contains('developer_error') || details.contains('status code: 10')) {
+      return 'Google sign-in configuration was refreshed. Please reinstall the app and try again.';
+    }
+
+    return error.message ??
+        'Google sign-in failed unexpectedly. Please try again.';
   }
 
   static Future<void> signOut() async {

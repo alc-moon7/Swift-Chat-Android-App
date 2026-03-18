@@ -1,8 +1,7 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:swift_chat/api/apis.dart';
 import 'package:swift_chat/helper/dialogs.dart';
 import 'package:swift_chat/screens/home_screen.dart';
 import 'package:swift_chat/services/notification_service.dart';
@@ -79,23 +78,7 @@ class _LoginScreenState extends State<LoginScreen>
     Dialogs.showLoading(context);
 
     try {
-      await InternetAddress.lookup('google.com');
-
-      final googleUser = await GoogleSignIn().signIn();
-      if (googleUser == null) {
-        Dialogs.hideLoading(context);
-        Dialogs.showSnackbar(context, 'Sign-in process canceled');
-        return;
-      }
-
-      final googleAuth = await googleUser.authentication;
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-
-      final userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credential);
+      final userCredential = await AuthService.signInWithGoogle();
       final user = userCredential.user;
 
       if (user != null && mounted) {
@@ -103,8 +86,12 @@ class _LoginScreenState extends State<LoginScreen>
         await NotificationService.syncTokenForUser(user);
         _navigateToHome();
       }
-    } on SocketException {
-      _handleError('No internet connection. Please try again.');
+    } on NoInternetException catch (e) {
+      _handleError(e.toString());
+    } on SignInCanceledException catch (e) {
+      _handleError(e.toString());
+    } on AuthException catch (e) {
+      _handleError(e.toString());
     } on FirebaseAuthException catch (e) {
       _handleError('Authentication error: ${e.message}');
     } catch (e) {
